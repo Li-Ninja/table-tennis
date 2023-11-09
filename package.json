@@ -25,6 +25,7 @@
     "eslint-config-next": "14.0.1"
   },
   "engines": {
-    "node": ">= 20.9.0"
+    "node": ">= 20.9.0",
+    "yarn": ">= 1.22.19"
   }
 }
