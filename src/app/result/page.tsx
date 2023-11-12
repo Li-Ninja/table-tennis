@@ -1,5 +1,12 @@
 'use client';
 
+import React, { useState } from 'react';
+import {
+  TETabs,
+  TETabsContent,
+  TETabsItem,
+  TETabsPane,
+} from 'tw-elements-react';
 import Bracket from '@/component/result/bracket';
 import { ICustomRoundProps } from '@/types/result';
 
@@ -89,9 +96,46 @@ const rounds: ICustomRoundProps[] = [
 ];
 
 export default function Result() {
+  const [buttonActive, setButtonActive] = useState('tab1');
+
+  const handleButtonClick = (value: string) => {
+    if (value === buttonActive) {
+      return;
+    }
+
+    setButtonActive(value);
+  };
+
   return (
     <div className="overflow-auto bg-gray-900">
-      <Bracket rounds={rounds} />
+      <TETabs>
+        <TETabsItem
+          onClick={() => handleButtonClick('tab1')}
+          active={buttonActive === 'tab1'}
+          tag="button"
+          color="light"
+          >
+          單打
+        </TETabsItem>
+        <TETabsItem
+          onClick={() => handleButtonClick('tab2')}
+          active={buttonActive === 'tab2'}
+          tag="button"
+          color="light"
+        >
+          雙打
+        </TETabsItem>
+      </TETabs>
+
+      <TETabsContent>
+        <TETabsPane show={buttonActive === 'tab1'}>
+          <Bracket rounds={rounds} />
+        </TETabsPane>
+        <TETabsPane show={buttonActive === 'tab2'}>
+          {/* TODO 雙打 */}
+          Waiting
+        </TETabsPane>
+      </TETabsContent>
     </div>
   );
 }
