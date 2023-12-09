@@ -4,7 +4,7 @@ services:
   frontend:
     image: ${FRONTEND_IMAGE_NAME}
     ports:
-      - 80:8080
+      - 90:8080
     restart: always
 
   backend:
