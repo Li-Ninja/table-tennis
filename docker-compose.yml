@@ -18,7 +18,7 @@ services:
   ttFrontend:
     image: ${TT_FRONTEND_IMAGE_NAME}
     ports:
-      - 81:9000
+      - 81:3000
     restart: always
 
   ttAdminFrontend:
