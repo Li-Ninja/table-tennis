@@ -1,102 +1,97 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, {
+  useEffect, useState,
+} from 'react';
 import {
   TETabs,
   TETabsContent,
   TETabsItem,
   TETabsPane,
 } from 'tw-elements-react';
+import { getResult } from '@/api/result';
 import Bracket from '@/component/result/bracket';
-import { ICustomRoundProps } from '@/types/result';
+import {
+  ICustomRoundProps, Result,
+} from '@/types/result';
 
-// TODO data from
-const rounds: ICustomRoundProps[] = [
-  {
-    title: '十六強賽',
-    seeds: [
-      {
-        id: 1,
-        teams: [{ name: 'Team 1' }],
-      },
-      {
-        id: 2,
-        teams: [{ name: 'Team 2', score: 0, playerId: 1 }, { name: 'Team 3', score: 3, playerId: 2 }],
-        winnerId: 2,
-      },
-      {
-        id: 3,
-        teams: [{ name: 'Team 4' }],
-      },
-      {
-        id: 4,
-        teams: [{ name: 'Team 5' }],
-      },
-      {
-        id: 5,
-        teams: [{ name: 'Team 6' }],
-      },
-      {
-        id: 6,
-        teams: [{ name: 'Team 7' }],
-      },
-      {
-        id: 7,
-        teams: [{ name: '王勵勤', score: 0 }, { name: '張繼科', score: 3 }],
-      },
-      {
-        id: 8,
-        teams: [{ name: 'Team 10' }],
-      },
-    ],
-  },
-  {
-    title: '八強賽',
-    seeds: [
-      {
-        id: 9,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-      {
-        id: 10,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-      {
-        id: 11,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-      {
-        id: 12,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-    ],
-  },
-  {
-    title: '半決賽',
-    seeds: [
-      {
-        id: 13,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-      {
-        id: 14,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-    ],
-  },
-  {
-    title: '決賽',
-    seeds: [
-      {
-        id: 15,
-        teams: [{ name: 'Team A' }, { name: 'Team C' }],
-      },
-    ],
-  },
-];
+function getRounds(list: Result[]) {
+  // solve single
+  const roundNumber = list?.[0]?.round;
+  const rounds:ICustomRoundProps[] = [];
+
+  for (let i = roundNumber; i >= 2; i /= 2) {
+    rounds.push(
+      { title: i === 2 ? '決賽' : (i === 4 ? '半決賽' : `${i} 強賽`),
+        round: i,
+        seeds: [],
+        winnerId: 0 },
+    );
+  }
+
+  for (let i = 0; i < rounds.length; i += 1) {
+    const newList = list.filter(item => item.round === rounds[i].round);
+
+    rounds[i].seeds = newList.map(item => ({
+      id: item.id,
+      teams: [
+        {
+          name: (() => {
+            if (item.player_nameA1 && item.player_nameA2) {
+              return `${item.player_nameA1} / ${item.player_nameA2}`;
+            }
+
+            if (item.player_nameA1 !== null || item.player_nameA2 !== null) {
+              return item.player_nameA1 ? item.player_nameA1 : item.player_nameA2;
+            }
+
+            return '-';
+          })(),
+          score: item.scoreA ?? undefined,
+          playerId: 0,
+        },
+        {
+          name: (() => {
+            if (item.player_nameB1 && item.player_nameB2) {
+              return `${item.player_nameB1} / ${item.player_nameB2}`;
+            }
+
+            if (item.player_nameB1 !== null || item.player_nameB2 !== null) {
+              return item.player_nameB1 ? item.player_nameB1 : item.player_nameB2;
+            }
+
+            return '-';
+          })(),
+          score: item.scoreB ?? undefined,
+          playerId: 0,
+        },
+      ],
+      winnerId: 0,
+    }));
+  }
+
+  return rounds;
+}
+
+function ResultComponent({ apiData, id }: { apiData: Result[]; id: number}) {
+  const list = apiData.filter(item => item.event_id === id);
+
+  const rounds = getRounds(list);
+
+  return (
+    <Bracket rounds={rounds} />
+  );
+}
 
 export default function Result() {
   const [buttonActive, setButtonActive] = useState('tab1');
+  const [apiData, setApiData] = useState<Result[]>([]);
+
+  useEffect(() => {
+    getResult().then(({ data }) => {
+      setApiData(data);
+    });
+  }, []);
 
   const handleButtonClick = (value: string) => {
     if (value === buttonActive) {
@@ -129,11 +124,11 @@ export default function Result() {
 
       <TETabsContent>
         <TETabsPane show={buttonActive === 'tab1'}>
-          <Bracket rounds={rounds} />
+          <ResultComponent apiData={apiData} id={1} />
         </TETabsPane>
         <TETabsPane show={buttonActive === 'tab2'}>
-          {/* TODO 雙打 */}
-          Waiting
+          <ResultComponent apiData={apiData} id={2} />
+
         </TETabsPane>
       </TETabsContent>
     </div>
