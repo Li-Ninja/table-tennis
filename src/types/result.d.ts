@@ -36,3 +36,10 @@ export interface Result {
   scoreA: number | null;
   scoreB: number | null;
 }
+
+export interface ResultItem {
+  result_id: Result['id'];
+  matchIndex: number;
+  scoreA: number;
+  scoreB: number;
+}

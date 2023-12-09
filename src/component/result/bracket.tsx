@@ -8,35 +8,48 @@ import { Seed } from '@/component/result/seed';
 import {
   ICustomRenderSeedProps,
   ICustomRoundProps,
+  ResultItem,
 } from '@/types/result';
 
 // TODO hover all seed when pointer the person
 const CustomSeedTeam = (
-  { name, score, isWinner }:
-  {name: string | undefined; score: number | undefined; isWinner: boolean},
+  { name, score, isWinner, str }:
+  {name: string | undefined; score: number | undefined; isWinner: boolean; str: string},
 ) => (
-  <div className="flex px-4 py-3 justify-between items-center hover:bg-gradient-primary text-md group border border-[#ddd]/30">
-    <div>{name}</div>
-    <div className={classNames('font-bold', isWinner ? 'text-primary' : 'text-gray-400', 'group-hover:text-white')}>{score}</div>
+  <div className="flex flex-col px-4 pt-3 pb-1 hover:bg-gradient-primary border border-[#ddd]/30">
+    <div className="flex justify-between items-center text-md group">
+      <div>{name}</div>
+      <div className={classNames('font-bold', isWinner ? 'text-primary' : 'text-gray-400', 'group-hover:text-white')}>{score}</div>
+    </div>
+    <div className="text-xs text-left mt-1">{str}</div>
   </div>
 );
 
-const CustomSeed = ({ seed }: ICustomRenderSeedProps) => (
-  <Seed>
-    <SeedItem>
-      <div>
-        {seed.teams.map((team, key) => (
-          <CustomSeedTeam
-            name={team?.name ?? '---'}
-            score={team?.score}
-            isWinner={seed.winnerId === team.playerId}
-            key={key}
-          />
-        ))}
-      </div>
-    </SeedItem>
-  </Seed>
-);
+const CustomSeed = ({ seed }: ICustomRenderSeedProps) => {
+  let str = '';
+
+  (seed.scoreList as ResultItem[]).forEach(item => {
+    str += `${item.scoreA}:${item.scoreB}  `;
+  });
+
+  return (
+    <Seed>
+      <SeedItem>
+        <div>
+          {seed.teams.map((team, key) => (
+            <CustomSeedTeam
+              name={team?.name ?? '---'}
+              score={team?.score}
+              isWinner={team?.score === 3}
+              key={key}
+              str={str}
+            />
+          ))}
+        </div>
+      </SeedItem>
+    </Seed>
+  );
+};
 
 const CustomTitle = (title: React.ReactNode) => <div className="text-primary text-center">{title}</div>;
 

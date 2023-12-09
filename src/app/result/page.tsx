@@ -9,13 +9,15 @@ import {
   TETabsItem,
   TETabsPane,
 } from 'tw-elements-react';
-import { getResult } from '@/api/result';
+import {
+  getResult, getResultItem,
+} from '@/api/result';
 import Bracket from '@/component/result/bracket';
 import {
-  ICustomRoundProps, Result,
+  ICustomRoundProps, Result, ResultItem,
 } from '@/types/result';
 
-function getRounds(list: Result[]) {
+function getRounds(list: Result[], apiData2: ResultItem[]) {
   // solve single
   const roundNumber = list?.[0]?.round;
   const rounds:ICustomRoundProps[] = [];
@@ -25,7 +27,7 @@ function getRounds(list: Result[]) {
       { title: i === 2 ? '決賽' : (i === 4 ? '半決賽' : `${i} 強賽`),
         round: i,
         seeds: [],
-        winnerId: 0 },
+        scoreList: [] },
     );
   }
 
@@ -66,17 +68,18 @@ function getRounds(list: Result[]) {
           playerId: 0,
         },
       ],
-      winnerId: 0,
+      scoreList: apiData2.filter(item2 => item2.result_id === item.id),
     }));
   }
 
   return rounds;
 }
 
-function ResultComponent({ apiData, id }: { apiData: Result[]; id: number}) {
+// eslint-disable-next-line max-len
+function ResultComponent({ apiData, id, apiData2 }: { apiData: Result[]; id: number; apiData2: ResultItem[] }) {
   const list = apiData.filter(item => item.event_id === id);
 
-  const rounds = getRounds(list);
+  const rounds = getRounds(list, apiData2);
 
   return (
     <Bracket rounds={rounds} />
@@ -86,10 +89,14 @@ function ResultComponent({ apiData, id }: { apiData: Result[]; id: number}) {
 export default function Result() {
   const [buttonActive, setButtonActive] = useState('tab1');
   const [apiData, setApiData] = useState<Result[]>([]);
+  const [apiResultItem, setApiResultItem] = useState<ResultItem[]>([]);
 
   useEffect(() => {
     getResult().then(({ data }) => {
       setApiData(data);
+    });
+    getResultItem().then(({ data }) => {
+      setApiResultItem(data);
     });
   }, []);
 
@@ -124,10 +131,10 @@ export default function Result() {
 
       <TETabsContent>
         <TETabsPane show={buttonActive === 'tab1'}>
-          <ResultComponent apiData={apiData} id={1} />
+          <ResultComponent apiData={apiData} id={1} apiData2={apiResultItem} />
         </TETabsPane>
         <TETabsPane show={buttonActive === 'tab2'}>
-          <ResultComponent apiData={apiData} id={2} />
+          <ResultComponent apiData={apiData} id={2} apiData2={apiResultItem} />
 
         </TETabsPane>
       </TETabsContent>
