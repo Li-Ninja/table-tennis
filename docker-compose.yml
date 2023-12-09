@@ -27,8 +27,8 @@ services:
       - 82:9001
     restart: always
 
-  ttBackend:
-    image: ${TT_BACKEND_IMAGE_NAME}
-    ports:
-      - 83:7183
-    restart: always
+  # ttBackend:
+  #   image: ${TT_BACKEND_IMAGE_NAME}
+  #   ports:
+  #     - 83:7183
+  #   restart: always
