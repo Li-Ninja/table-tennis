@@ -1,3 +1,4 @@
+import { GoogleTagManager } from '@next/third-parties/google';
 import classNames from 'classnames';
 import type { Metadata } from 'next';
 import { Noto_Sans_SC as noto } from 'next/font/google';
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 
 const font = noto({ weight: ['200', '400', '500', '700'], subsets: ['latin'] });
 
+const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
 export default function RootLayout({
   children,
 }: {
@@ -23,6 +26,7 @@ export default function RootLayout({
         <Header />
         {children}
       </body>
+      {process.env.isProduction === 'true' && gtmId && <GoogleTagManager gtmId={gtmId} />}
     </html>
   );
 }
