@@ -5,5 +5,5 @@ COPY . .
 RUN yarn install
 RUN yarn build
 
-EXPOSE 3000
-CMD ["npm", "start"]
+EXPOSE 8080
+CMD ["yarn", "start", "--port", "8080"]
