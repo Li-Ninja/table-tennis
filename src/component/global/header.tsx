@@ -56,6 +56,18 @@ export default function Header(): JSX.Element {
             第一屆會內賽
           </TETabsItem>
         </Link>
+        <Link
+          href="/ranking"
+          passHref
+        >
+          <TETabsItem
+            onClick={() => handleJustifyClick('ranking')}
+            active={justifyActive === 'ranking'}
+            tag="div"
+          >
+            積分表
+          </TETabsItem>
+        </Link>
       </TETabs>
     </header>
   );
