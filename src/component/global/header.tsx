@@ -41,7 +41,7 @@ export default function Header(): JSX.Element {
             active={justifyActive === ''}
             tag="div"
           >
-            Home
+            首頁
           </TETabsItem>
         </Link>
         <Link
@@ -53,7 +53,7 @@ export default function Header(): JSX.Element {
             active={justifyActive === 'result'}
             tag="div"
           >
-            Result
+            第一屆會內賽
           </TETabsItem>
         </Link>
       </TETabs>
