@@ -43,3 +43,18 @@ export interface ResultItem {
   scoreA: number;
   scoreB: number;
 }
+
+export interface ResultRanking extends Pick<Result,
+'id' |
+'event_id' |
+'event_name' |
+'player_id_a_1' |
+'player_id_b_1' |
+'player_nameA1' |
+'player_nameB1' |
+'scoreA' |
+'scoreB'
+> {
+  resultDate: string;
+  resultItemList: ResultItem[];
+}
