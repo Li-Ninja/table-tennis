@@ -28,6 +28,7 @@ export default function Ranking() {
                   <th scope="col" className="px-6 py-4">#</th>
                   <th scope="col" className="px-6 py-4">選手</th>
                   <th scope="col" className="px-6 py-4">目前積分</th>
+                  <th scope="col" className="px-6 py-4">累積場次</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,6 +40,7 @@ export default function Ranking() {
                     <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.name}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
+                    <td className="whitespace-nowrap px-6 py-4">{item.resultCount}</td>
                   </tr>
                 ))}
 
