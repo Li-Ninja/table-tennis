@@ -3,4 +3,5 @@ export interface Player {
   name: string;
   score: number;
   resultCount: number;
+  winningCount: number;
 }
