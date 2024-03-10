@@ -3,9 +3,10 @@
 import {
   format, isValid, parse,
 } from 'date-fns';
+import dayjs from 'dayjs';
 import FocusTrap from 'focus-trap-react';
 import React, {
-  ChangeEventHandler, useEffect, useRef, useState,
+  useEffect, useRef, useState,
 } from 'react';
 import {
   DayPicker, SelectSingleEventHandler,
@@ -74,21 +75,6 @@ export default function DatePicker(props: IProps) {
     buttonRef?.current?.focus();
   };
 
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = e => {
-    const newValue = e.currentTarget.value;
-
-    setInputValue(newValue);
-    const parsedDate = parse(newValue, 'y-MM-dd', new Date());
-
-    if (isValid(parsedDate)) {
-      setSelected(parsedDate);
-      setDate(format(parsedDate, 'y-MM-dd'));
-    } else {
-      setSelected(undefined);
-      setDate('');
-    }
-  };
-
   const handleButtonClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsPopperOpen(true);
@@ -97,10 +83,14 @@ export default function DatePicker(props: IProps) {
   const handleDaySelect: SelectSingleEventHandler = value => {
     setSelected(value);
 
+    const formatDate = dayjs(value).format('YYYY-MM-DD');
+
     if (value) {
       setInputValue(format(value, 'y-MM-dd'));
+      setDate(formatDate);
       closePopper();
     } else {
+      setDate('');
       setInputValue('');
     }
   };
@@ -113,7 +103,6 @@ export default function DatePicker(props: IProps) {
           label={text}
           value={inputValue}
           className="text-black"
-          onChange={handleInputChange}
           onClick={handleButtonClick}
         />
       </div>

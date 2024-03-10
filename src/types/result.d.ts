@@ -58,3 +58,8 @@ export interface ResultRanking extends Pick<Result,
   resultDateTime: string;
   resultItemList: ResultItem[];
 }
+
+export interface ResultRankingGet {
+  startDate: string;
+  endDate: string;
+}

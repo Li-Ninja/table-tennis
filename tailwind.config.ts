@@ -16,7 +16,11 @@ const config: Config = {
         'gradient-primary': 'linear-gradient(90deg, #f37822 0%, #d45022 45%, #e6342d 100%)',
       },
       colors: {
-        primary: '#FF6B00',
+        primary: {
+          DEFAULT: '#FF6B00',
+          600: '#E55E00',
+          700: '#CC5500',
+        },
       },
     },
   },

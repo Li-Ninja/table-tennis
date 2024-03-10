@@ -1,5 +1,6 @@
+import { getUtcDateTime } from '@/constant/common';
 import {
-  Result, ResultItem, ResultRanking,
+  Result, ResultItem, ResultRanking, ResultRankingGet,
 } from '@/types/result';
 
 export const getResult = async (): Promise<{ data: Result[] }> => {
@@ -18,9 +19,13 @@ export const getResult = async (): Promise<{ data: Result[] }> => {
   return { data };
 };
 
-export const getResultRanking = async (): Promise<{ data: ResultRanking[] }> => {
+export const getResultRanking = async (getData: ResultRankingGet):
+Promise<{ data: ResultRanking[] }> => {
   const url = 'result/resultRanking';
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?event_type=3`, {
+  const startDate = getUtcDateTime(getData.startDate);
+  const endDate = getUtcDateTime(getData.endDate);
+
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?event_type=3&startDate=${startDate}&endDate=${endDate}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
