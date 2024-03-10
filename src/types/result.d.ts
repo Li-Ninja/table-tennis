@@ -55,6 +55,6 @@ export interface ResultRanking extends Pick<Result,
 'scoreA' |
 'scoreB'
 > {
-  resultDate: string;
+  resultDateTime: string;
   resultItemList: ResultItem[];
 }

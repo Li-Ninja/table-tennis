@@ -1,10 +1,16 @@
 'use client';
 
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import React, {
   useEffect, useState,
 } from 'react';
 import { getResultRanking } from '@/api/result';
 import { ResultRanking } from '@/types/result';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function RankingHistory() {
   const [apiData, setApiData] = useState<ResultRanking[]>([]);
@@ -40,8 +46,8 @@ export default function RankingHistory() {
                     key={index}
                     className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
                     <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.resultDate ? item.resultDate.split('T')[0] : ''}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.resultDate ? item.resultDate.split('T')[1].replace('Z', '') : ''}</td>
+                    <td className="whitespace-nowrap px-6 py-4">{item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD') : ''}</td>
+                    <td className="whitespace-nowrap px-6 py-4">{item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('HH:mm') : ''}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.player_nameA1}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.scoreA} : {item.scoreB}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.player_nameB1}</td>
