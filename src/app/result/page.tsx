@@ -115,7 +115,7 @@ export default function Result() {
           onClick={() => handleButtonClick('tab1')}
           active={buttonActive === 'tab1'}
           tag="button"
-          color="light"
+          color={buttonActive === 'tab1' ? 'primary' : 'light'}
           >
           單打
         </TETabsItem>
@@ -123,7 +123,7 @@ export default function Result() {
           onClick={() => handleButtonClick('tab2')}
           active={buttonActive === 'tab2'}
           tag="button"
-          color="light"
+          color={buttonActive === 'tab2' ? 'primary' : 'light'}
         >
           雙打
         </TETabsItem>

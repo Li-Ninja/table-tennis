@@ -31,7 +31,7 @@ export default function Ranking() {
           <div className="overflow-auto">
             <table className="min-w-full text-left text-sm font-light">
               <thead
-                className="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
+                className="border-b font-medium border-neutral-500 bg-neutral-600">
                 <tr>
                   <th scope="col" className="px-6 py-4">#</th>
                   <th scope="col" className="px-6 py-4">選手</th>
@@ -45,7 +45,7 @@ export default function Ranking() {
                 {apiData.map((item, index) => (
                   <tr
                     key={index}
-                    className="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
+                    className="border-b border-neutral-500 bg-neutral-700">
                     <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.name}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
