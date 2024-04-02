@@ -7,6 +7,12 @@ import React, {
 import { getPlayer } from '@/api/player';
 import { Player } from '@/types/player';
 
+const styles = {
+  firstPlace: { backgroundColor: '#c9b037' },
+  secondPlace: { backgroundColor: '#a8a8a8' },
+  thirdPlace: { backgroundColor: '#ad6f69' },
+};
+
 export default function Ranking() {
   const [apiData, setApiData] = useState<Player[]>([]);
 
@@ -45,9 +51,22 @@ export default function Ranking() {
                 {apiData.map((item, index) => (
                   <tr
                     key={index}
+                    style={
+                    index === 0 ? styles.firstPlace
+                      : index === 1 ? styles.secondPlace
+                        : index === 2 ? styles.thirdPlace : {}
+                    }
                     className="border-b border-neutral-500 bg-neutral-700">
                     <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.name}</td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {index === 0 ? '🏆 '
+                        : index === 1 ? '🥈 '
+                          : index === 2 ? '🥉 '
+                            : index === 3 ? '🏅 '
+                              : index === 4 ? '🎖 ' : ''
+                      }
+                      {item.name}
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
                     <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
                     <td className="whitespace-nowrap px-6 py-4">{winningRate(item)}</td>
