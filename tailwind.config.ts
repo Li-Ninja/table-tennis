@@ -22,6 +22,9 @@ const config: Config = {
           700: '#CC5500',
         },
       },
+      inset: {
+        '40px': '40px',
+      },
     },
   },
   plugins: [],
