@@ -4,4 +4,6 @@ export interface Player {
   score: number;
   resultCount: number;
   winningCount: number;
+  latestResultDateTime?: string;
+  updateDateTime?: string;
 }
