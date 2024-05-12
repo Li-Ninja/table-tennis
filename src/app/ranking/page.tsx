@@ -81,7 +81,7 @@ export default function Ranking() {
 
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col">
-      <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div className="inline-block min-w-full">
         <div className="overflow-auto">
           <table className="min-w-full text-left text-sm font-light">
             <thead
