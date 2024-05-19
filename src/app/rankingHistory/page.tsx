@@ -11,6 +11,7 @@ import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import { getResultRanking } from '@/api/result';
+import PlayerSelect from '@/component/global/playerSelect';
 import { ResultRanking } from '@/types/result';
 
 dayjs.extend(utc);
@@ -18,18 +19,26 @@ dayjs.extend(timezone);
 
 export default function RankingHistory() {
   const [apiData, setApiData] = useState<ResultRanking[]>([]);
+  const [playerA, setPlayerA] = useState<number | undefined>(undefined);
+  const [playerB, setPlayerB] = useState<number | undefined>(undefined);
   const [startDate, setStartDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
 
   const search = useCallback(() => {
-    getResultRanking({ startDate, endDate }).then(({ data }) => {
+    getResultRanking({ startDate, endDate, playerA, playerB }).then(({ data }) => {
       setApiData(data);
     });
-  }, [startDate, endDate]);
+  }, [startDate, endDate, playerA, playerB]);
 
   useEffect(() => {
     search();
   }, []);
+
+  useEffect(() => {
+    if (!playerA) {
+      setPlayerB(undefined);
+    }
+  }, [playerA]);
 
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col p-5">
@@ -56,6 +65,8 @@ export default function RankingHistory() {
             }
           }}
         />
+        <PlayerSelect id={playerA} setId={setPlayerA} />
+        <PlayerSelect id={playerB} setId={setPlayerB} disable={!playerA} />
         <Button
           type="primary"
           size="large"
