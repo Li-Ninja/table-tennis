@@ -41,7 +41,7 @@ export default function RankingHistory() {
   }, [playerA]);
 
   return (
-    <div className="overflow-auto bg-gray-900 flex flex-col p-5">
+    <div className=" bg-gray-900 flex flex-col p-5">
       <div className="flex flex-col md:flex-row mb-6 gap-y-4 md:gap-0 justify-between">
         <DatePicker
           format="YYYY-MM-DD"
