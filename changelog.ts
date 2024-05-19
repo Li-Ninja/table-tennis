@@ -3,6 +3,7 @@ export default [
     version: 'v1.0.0',
     list: [
       '增加更新日誌',
+      '積分賽記錄的日期選擇與按鈕調整',
     ],
   },
   {

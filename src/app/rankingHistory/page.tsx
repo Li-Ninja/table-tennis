@@ -1,5 +1,9 @@
 'use client';
 
+import { SearchOutlined } from '@ant-design/icons';
+import {
+  Button, DatePicker,
+} from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -7,7 +11,6 @@ import React, {
   useCallback, useEffect, useState,
 } from 'react';
 import { getResultRanking } from '@/api/result';
-import DatePicker from '@/component/global/datePicker';
 import { ResultRanking } from '@/types/result';
 
 dayjs.extend(utc);
@@ -30,16 +33,39 @@ export default function RankingHistory() {
 
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col p-5">
-      <div className="flex my-6 gap-x-4">
-        <DatePicker className="flex-auto" text="開始日期" date={startDate} setDate={setStartDate}/>
-        <DatePicker className="flex-auto" text="結束日期" date={endDate} setDate={setEndDate}/>
-        <button
-          type="button"
-          className="inline-block rounded-full bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white  transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.3),0_4px_18px_0_rgba(228,161,27,0.2)] dark:hover:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(228,161,27,0.2),0_4px_18px_0_rgba(228,161,27,0.1)]"
+      <div className="flex flex-col md:flex-row mb-6 gap-y-4 md:gap-0 justify-between">
+        <DatePicker
+          format="YYYY-MM-DD"
+          defaultValue={dayjs(startDate)}
+          size="large"
+          allowClear={false}
+          onChange={(_, d) => {
+            if (typeof d === 'string') {
+              setStartDate(d);
+            }
+          }}
+        />
+        <DatePicker
+          format="YYYY-MM-DD"
+          defaultValue={dayjs(endDate)}
+          size="large"
+          allowClear={false}
+          onChange={(_, d) => {
+            if (typeof d === 'string') {
+              setEndDate(d);
+            }
+          }}
+        />
+        <Button
+          type="primary"
+          size="large"
+          icon={<SearchOutlined />}
           onClick={search}
-      >
+          // TODO: type 用 primary 效果沒有出來，可能是被 tailwind 影響，所以這裡還會要額外加上 bg-primary
+          className="bg-primary"
+        >
           搜尋
-        </button>
+        </Button>
       </div>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
