@@ -2,8 +2,9 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import classNames from 'classnames';
 import type { Metadata } from 'next';
 import { Noto_Sans_SC as noto } from 'next/font/google';
-import AntdRegistry from '@/component/global/antdRegistry';
 import Header from '@/component/global/header';
+import AntdRegistry from '@/component/registry/antdRegistry';
+import ApiRegistry from '@/component/registry/apiRegistry';
 import 'tw-elements-react/dist/css/tw-elements-react.min.css';
 import './globals.css';
 
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={classNames('mx-2 mt-2', font.className)}>
+        <ApiRegistry />
         <AntdRegistry>
           <Header />
           {children}

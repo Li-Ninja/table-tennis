@@ -3,14 +3,17 @@
 import {
   ExclamationCircleOutlined, QuestionCircleOutlined,
 } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import {
+  Button, Tooltip,
+} from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import { useRouter } from 'next/navigation';
 import React, {
   useEffect, useState,
 } from 'react';
-import { getPlayer } from '@/api/player';
+import { usePlayerStore } from '@/store/player';
 import { Player } from '@/types/player';
 
 dayjs.extend(utc);
@@ -23,27 +26,26 @@ const styles = {
 };
 
 export default function Ranking() {
-  const [apiData, setApiData] = useState<Player[]>([]);
+  const [list, setList] = useState<Player[]>([]);
+  const { playerList } = usePlayerStore(state => state);
 
   useEffect(() => {
-    getPlayer().then(({ data }) => {
-      const twoMonthsAgo = dayjs().subtract(2, 'month');
+    const twoMonthsAgo = dayjs().subtract(2, 'month');
 
-      const filteredData = data
-        .filter(player => {
-          if (player.latestResultDateTime === null) {
-            return false;
-          }
+    const filteredData = playerList
+      .filter(player => {
+        if (player.latestResultDateTime === null) {
+          return false;
+        }
 
-          const playerUpdateDate = dayjs(player.latestResultDateTime);
+        const playerUpdateDate = dayjs(player.latestResultDateTime);
 
-          return playerUpdateDate.isAfter(twoMonthsAgo);
-        })
-        .sort((a, b) => b.score - a.score);
+        return playerUpdateDate.isAfter(twoMonthsAgo);
+      })
+      .sort((a, b) => b.score - a.score);
 
-      setApiData(filteredData);
-    });
-  }, []);
+    setList(filteredData);
+  }, [playerList]);
 
   function winningRate(item: Player) {
     if (item.resultCount === 0) {
@@ -79,6 +81,15 @@ export default function Ranking() {
     return <span>有 {daysDifference} 天沒有新的比賽記錄</span>;
   }
 
+  const rankTips = <span>點擊排名可以查看選手的比賽記錄</span>;
+
+  // #region router
+  const router = useRouter();
+  const handleRouteChange = (id: number) => {
+    router.push(`/rankingHistory?id=${id}`);
+  };
+  // #endregion
+
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col">
       <div className="inline-block min-w-full">
@@ -87,7 +98,13 @@ export default function Ranking() {
             <thead
               className="border-b font-medium border-neutral-500 bg-neutral-600">
               <tr>
-                <th scope="col" className="px-3 py-4 sticky top-0 left-0 z-20 bg-neutral-600">#</th>
+                <th scope="col" className="px-3 py-4 sticky top-0 left-0 z-20 bg-neutral-600">
+                  #
+                  <Tooltip className="ml-1" placement="bottom" title={rankTips}>
+                    <QuestionCircleOutlined />
+
+                  </Tooltip>
+                </th>
                 <th scope="col" className="px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-600">選手</th>
                 <th scope="col" className="px-6 py-4">積分</th>
                 <th scope="col" className="px-6 py-4">累計場次</th>
@@ -105,7 +122,7 @@ export default function Ranking() {
             </thead>
             <tbody>
 
-              {apiData.map((item, index) => (
+              {list.map((item, index) => (
                 <tr
                   key={index}
                   style={
@@ -121,7 +138,10 @@ export default function Ranking() {
                       : index === 1 ? styles.secondPlace
                         : index === 2 ? styles.thirdPlace : {}
                     }>
-                    {index + 1}
+                    <Button type="primary" onClick={() => handleRouteChange(item.id)}>
+                      {index + 1}
+                    </Button>
+
                   </td>
                   <td
                     className="whitespace-nowrap px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-700 border-b border-neutral-500"

@@ -62,4 +62,6 @@ export interface ResultRanking extends Pick<Result,
 export interface ResultRankingGet {
   startDate: string;
   endDate: string;
+  playerA?: Player['id'];
+  playerB?: Player['id'];
 }

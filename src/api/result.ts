@@ -24,8 +24,17 @@ Promise<{ data: ResultRanking[] }> => {
   const url = 'result/resultRanking';
   const startDate = getUtcDateTime(getData.startDate);
   const endDate = getUtcDateTime(getData.endDate);
+  let query = `event_type=3&startDate=${startDate}&endDate=${endDate}`;
 
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?event_type=3&startDate=${startDate}&endDate=${endDate}`, {
+  if (getData.playerA) {
+    query += `&player_Id_A_1=${getData.playerA}`;
+  }
+
+  if (getData.playerB) {
+    query += `&player_Id_B_1=${getData.playerB}`;
+  }
+
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?${query}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
