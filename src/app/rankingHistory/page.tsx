@@ -23,10 +23,13 @@ export default function RankingHistory() {
   const [playerB, setPlayerB] = useState<number | undefined>(undefined);
   const [startDate, setStartDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [isLoading, setIsLoading] = useState(false);
 
   const search = useCallback(() => {
+    setIsLoading(true);
     getResultRanking({ startDate, endDate, playerA, playerB }).then(({ data }) => {
       setApiData(data);
+      setIsLoading(false);
     });
   }, [startDate, endDate, playerA, playerB]);
 
@@ -68,6 +71,7 @@ export default function RankingHistory() {
         <PlayerSelect id={playerA} setId={setPlayerA} />
         <PlayerSelect id={playerB} setId={setPlayerB} disable={!playerA} />
         <Button
+          loading={isLoading}
           type="primary"
           size="large"
           icon={<SearchOutlined />}
