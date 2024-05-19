@@ -10,7 +10,7 @@ import utc from 'dayjs/plugin/utc';
 import React, {
   useEffect, useState,
 } from 'react';
-import { getPlayer } from '@/api/player';
+import { usePlayerStore } from '@/store/player';
 import { Player } from '@/types/player';
 
 dayjs.extend(utc);
@@ -23,27 +23,26 @@ const styles = {
 };
 
 export default function Ranking() {
-  const [apiData, setApiData] = useState<Player[]>([]);
+  const [list, setList] = useState<Player[]>([]);
+  const { playerList } = usePlayerStore(state => state);
 
   useEffect(() => {
-    getPlayer().then(({ data }) => {
-      const twoMonthsAgo = dayjs().subtract(2, 'month');
+    const twoMonthsAgo = dayjs().subtract(2, 'month');
 
-      const filteredData = data
-        .filter(player => {
-          if (player.latestResultDateTime === null) {
-            return false;
-          }
+    const filteredData = playerList
+      .filter(player => {
+        if (player.latestResultDateTime === null) {
+          return false;
+        }
 
-          const playerUpdateDate = dayjs(player.latestResultDateTime);
+        const playerUpdateDate = dayjs(player.latestResultDateTime);
 
-          return playerUpdateDate.isAfter(twoMonthsAgo);
-        })
-        .sort((a, b) => b.score - a.score);
+        return playerUpdateDate.isAfter(twoMonthsAgo);
+      })
+      .sort((a, b) => b.score - a.score);
 
-      setApiData(filteredData);
-    });
-  }, []);
+    setList(filteredData);
+  }, [playerList]);
 
   function winningRate(item: Player) {
     if (item.resultCount === 0) {
@@ -105,7 +104,7 @@ export default function Ranking() {
             </thead>
             <tbody>
 
-              {apiData.map((item, index) => (
+              {list.map((item, index) => (
                 <tr
                   key={index}
                   style={
