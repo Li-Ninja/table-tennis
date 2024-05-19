@@ -115,7 +115,7 @@ export default function Ranking() {
                     }
                   className="border-b border-neutral-500 bg-neutral-700">
                   <td
-                    className="whitespace-nowrap px-3 py-4 font-medium sticky top-0 left-0 z-20 bg-neutral-700"
+                    className="whitespace-nowrap px-3 py-4 font-medium sticky top-0 left-0 z-20 bg-neutral-700 border-b border-neutral-500"
                     style={
                     index === 0 ? styles.firstPlace
                       : index === 1 ? styles.secondPlace
@@ -124,7 +124,7 @@ export default function Ranking() {
                     {index + 1}
                   </td>
                   <td
-                    className="whitespace-nowrap px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-700"
+                    className="whitespace-nowrap px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-700 border-b border-neutral-500"
                     style={
                     index === 0 ? styles.firstPlace
                       : index === 1 ? styles.secondPlace
