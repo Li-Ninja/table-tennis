@@ -15,6 +15,13 @@ export default function AntdRegistry({ children }: React.PropsWithChildren) {
   const cache = React.useMemo<Entity>(() => createCache(), []);
   const { darkAlgorithm } = theme;
 
+  const customTheme = {
+    algorithm: darkAlgorithm,
+    token: {
+      colorPrimary: '#FF6B00',
+    },
+  };
+
   useServerInsertedHTML(() => {
     if (isServerInserted.current) {
       return;
@@ -31,9 +38,7 @@ export default function AntdRegistry({ children }: React.PropsWithChildren) {
   return (
     <StyleProvider cache={cache}>
       <ConfigProvider
-        theme={{
-          algorithm: darkAlgorithm,
-        }}>
+        theme={customTheme}>
         {children}
       </ConfigProvider>
     </StyleProvider>

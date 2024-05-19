@@ -1,5 +1,9 @@
 'use client';
 
+import { HistoryOutlined } from '@ant-design/icons';
+import {
+  Badge, Button,
+} from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -8,6 +12,7 @@ import {
   TETabs,
   TETabsItem,
 } from 'tw-elements-react';
+import ChangelogDrawer from '@/component/global/changelogDrawer';
 
 export default function Header(): JSX.Element {
   const [justifyActive, setJustifyActive] = useState(usePathname().replaceAll('/', ''));
@@ -19,8 +24,19 @@ export default function Header(): JSX.Element {
     setJustifyActive(value);
   };
 
+  // #region drawer
+  const [isShowDrawer, setIsShowDrawer] = useState(false);
+  const onClose = () => {
+    setIsShowDrawer(false);
+  };
+
+  const showDrawer = () => {
+    setIsShowDrawer(true);
+  };
+  // #endregion
+
   return (
-    <header className="mb-3 flex">
+    <header className="mb-3 flex relative">
       <div className="flex justify-center items-center mr-12">
         <Image
           src="/ttt51.png"
@@ -81,6 +97,19 @@ export default function Header(): JSX.Element {
           </TETabsItem>
         </Link>
       </TETabs>
+
+      <div className="absolute right-4 top-4">
+        <Badge
+          count={`v${process.env.version?.replace(/-.*$/, '')}`}
+          offset={[-10, -5]}
+          color='#f3956a'
+        >
+          <Button className="flex justify-center items-center" onClick={showDrawer} >
+            <HistoryOutlined /> 更新日誌
+          </Button>
+        </Badge>
+      </div>
+      <ChangelogDrawer open={isShowDrawer} onClose={onClose} />
     </header>
   );
 }
