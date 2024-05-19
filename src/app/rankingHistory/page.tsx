@@ -25,6 +25,22 @@ export default function RankingHistory() {
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isLoading, setIsLoading] = useState(false);
 
+  // TODO: 改成 next 的寫法
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const searchId = queryParams.get('id');
+
+    if (searchId) {
+      if (Number(searchId)) {
+        setPlayerA(Number(searchId));
+      }
+
+      // TODO: 這邊的顯示沒有跟著改動
+      setStartDate('2024-01-01');
+    }
+  }, []);
+
   const search = useCallback(() => {
     setIsLoading(true);
     getResultRanking({ startDate, endDate, playerA, playerB }).then(({ data }) => {
@@ -33,8 +49,20 @@ export default function RankingHistory() {
     });
   }, [startDate, endDate, playerA, playerB]);
 
+  // TODO: refactor
   useEffect(() => {
-    search();
+    const queryParams = new URLSearchParams(window.location.search);
+    const searchId = queryParams.get('id');
+
+    if (searchId !== undefined) {
+      setIsLoading(true);
+      getResultRanking({ startDate: '2024-01-01', endDate, playerA: Number(searchId), playerB }).then(({ data }) => {
+        setApiData(data);
+        setIsLoading(false);
+      });
+    } else {
+      search();
+    }
   }, []);
 
   useEffect(() => {
