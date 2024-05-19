@@ -9,7 +9,6 @@ import {
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { useRouter } from 'next/navigation';
 import React, {
   useEffect, useState,
 } from 'react';
@@ -84,9 +83,8 @@ export default function Ranking() {
   const rankTips = <span>點擊排名可以查看選手的比賽記錄</span>;
 
   // #region router
-  const router = useRouter();
   const handleRouteChange = (id: number) => {
-    router.push(`/rankingHistory?id=${id}`);
+    window.location.href = `${window.location.origin}/rankingHistory?id=${id}`;
   };
   // #endregion
 
