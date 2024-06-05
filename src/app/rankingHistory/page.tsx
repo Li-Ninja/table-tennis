@@ -1,9 +1,11 @@
 'use client';
 
 import { SearchOutlined } from '@ant-design/icons';
+
 import {
-  Button, DatePicker,
+  Button, DatePicker, Table,
 } from 'antd';
+import type { TableColumnsType } from 'antd';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -17,13 +19,80 @@ import { ResultRanking } from '@/types/result';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+interface DataType {
+  key: number;
+  index: number;
+  date: string;
+  time: string;
+  player_nameA1: string;
+  score: string;
+  player_nameB1: string;
+  resultItemList: string[];
+}
+
 export default function RankingHistory() {
-  const [apiData, setApiData] = useState<ResultRanking[]>([]);
+  const [dataSource, setDataSource] = useState<DataType[]>([]);
   const [playerA, setPlayerA] = useState<number | undefined>(undefined);
   const [playerB, setPlayerB] = useState<number | undefined>(undefined);
   const [startDate, setStartDate] = useState(dayjs().subtract(6, 'day').format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isLoading, setIsLoading] = useState(false);
+  const columns: TableColumnsType<DataType> = [
+    {
+      title: '#',
+      dataIndex: 'index',
+      key: 'index',
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => a.index - b.index,
+    },
+    {
+      title: '比賽日期',
+      dataIndex: 'date',
+      key: 'date',
+
+    },
+    {
+      title: '比賽時間',
+      dataIndex: 'time',
+      key: 'time',
+    },
+    {
+      title: '選手A',
+      dataIndex: 'player_nameA1',
+      key: 'player_nameA1',
+    },
+    {
+      title: '比分',
+      dataIndex: 'score',
+      key: 'score',
+      width: 120,
+    },
+    {
+      title: '選手B',
+      dataIndex: 'player_nameB1',
+      key: 'player_nameB1',
+    },
+    {
+      title: '每局分數',
+      dataIndex: 'resultItemList',
+      key: 'resultItemList',
+    },
+  ];
+
+  function solveData(data: ResultRanking[]) {
+    setDataSource(
+      data.reverse().map((item, index) => ({
+        key: index,
+        index: index + 1,
+        date: item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD') : '',
+        time: item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('HH:mm') : '',
+        player_nameA1: item.player_nameA1,
+        score: `${item.scoreA} : ${item.scoreB}`,
+        player_nameB1: item.player_nameB1,
+        resultItemList: item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `),
+      })),
+    );
+  }
 
   // TODO: 改成 next 的寫法
 
@@ -44,7 +113,7 @@ export default function RankingHistory() {
   const search = useCallback(() => {
     setIsLoading(true);
     getResultRanking({ startDate, endDate, playerA, playerB }).then(({ data }) => {
-      setApiData(data);
+      solveData(data);
       setIsLoading(false);
     });
   }, [startDate, endDate, playerA, playerB]);
@@ -57,7 +126,7 @@ export default function RankingHistory() {
     if (searchId) {
       setIsLoading(true);
       getResultRanking({ startDate: '2024-01-01', endDate, playerA: Number(searchId), playerB }).then(({ data }) => {
-        setApiData(data);
+        solveData(data);
         setIsLoading(false);
       });
     } else {
@@ -112,39 +181,12 @@ export default function RankingHistory() {
       </div>
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-          <div className="overflow-auto">
-            <table className="min-w-full text-left text-sm font-light">
-              <thead
-                className="border-b font-medium border-neutral-500 bg-neutral-600">
-                <tr>
-                  <th scope="col" className="px-6 py-4">#</th>
-                  <th scope="col" className="px-6 py-4">比賽日期</th>
-                  <th scope="col" className="px-6 py-4">比賽時間</th>
-                  <th scope="col" className="px-6 py-4">選手A</th>
-                  <th scope="col" className="px-6 py-4">比分</th>
-                  <th scope="col" className="px-6 py-4">選手B</th>
-                  <th scope="col" className="px-6 py-4">每局分數</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                {apiData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-neutral-500 bg-neutral-700">
-                    <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD') : ''}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('HH:mm') : ''}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.player_nameA1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.scoreA} : {item.scoreB}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.player_nameB1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `)}</td>
-                  </tr>
-                ))}
-
-              </tbody>
-            </table>
-          </div>
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            scroll={{ x: 'max-content' }}
+            pagination={{ pageSize: 20, position: ['bottomLeft', 'bottomLeft'] }}
+          />
         </div>
       </div>
     </div>
