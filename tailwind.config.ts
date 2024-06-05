@@ -23,7 +23,7 @@ const config: Config = {
         },
       },
       inset: {
-        '40px': '40px',
+        '70px': '70px',
       },
     },
   },

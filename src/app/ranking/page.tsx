@@ -103,7 +103,7 @@ export default function Ranking() {
 
                   </Tooltip>
                 </th>
-                <th scope="col" className="px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-600">選手</th>
+                <th scope="col" className="px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-600">選手</th>
                 <th scope="col" className="px-6 py-4">積分</th>
                 <th scope="col" className="px-6 py-4">累計場次</th>
                 <th scope="col" className="px-6 py-4">勝率</th>
@@ -142,7 +142,7 @@ export default function Ranking() {
 
                   </td>
                   <td
-                    className="whitespace-nowrap px-2 py-4 sticky top-0 left-40px z-10 bg-neutral-700 border-b border-neutral-500"
+                    className="whitespace-nowrap px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-700 border-b border-neutral-500"
                     style={
                     index === 0 ? styles.firstPlace
                       : index === 1 ? styles.secondPlace
