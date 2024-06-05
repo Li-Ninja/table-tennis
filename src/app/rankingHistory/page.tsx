@@ -21,7 +21,7 @@ export default function RankingHistory() {
   const [apiData, setApiData] = useState<ResultRanking[]>([]);
   const [playerA, setPlayerA] = useState<number | undefined>(undefined);
   const [playerB, setPlayerB] = useState<number | undefined>(undefined);
-  const [startDate, setStartDate] = useState(dayjs().format('YYYY-MM-DD'));
+  const [startDate, setStartDate] = useState(dayjs().subtract(6, 'day').format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isLoading, setIsLoading] = useState(false);
 
