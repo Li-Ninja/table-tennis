@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.0.1',
+    list: [
+      '修正積分賽記錄頁面會跳出錯誤',
+    ],
+  },
+  {
     version: 'v1.0.0',
     list: [
       '增加更新日誌',

@@ -54,7 +54,7 @@ export default function RankingHistory() {
     const queryParams = new URLSearchParams(window.location.search);
     const searchId = queryParams.get('id');
 
-    if (searchId !== undefined) {
+    if (searchId) {
       setIsLoading(true);
       getResultRanking({ startDate: '2024-01-01', endDate, playerA: Number(searchId), playerB }).then(({ data }) => {
         setApiData(data);
