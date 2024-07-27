@@ -81,6 +81,11 @@ jobs:
     needs: docker-image
     runs-on: ubuntu-latest
     steps:
+      - name: Check current directory and list files
+        run: |
+          pwd
+          ls -la
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
