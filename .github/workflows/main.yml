@@ -28,17 +28,19 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build
-        run: yarn build
-
-      - name: List output
-        run: ls -lR dist
+      - name: Build and list output
+        run: |
+          yarn build
+          ls -lR
+          pwd
+          echo "Listing contents of current directory"
+          ls -al
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: dist
-          path: dist
+          name: next-artifacts
+          path: .next
           retention-days: 15
 
   docker-image:
