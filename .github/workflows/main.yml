@@ -74,8 +74,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/table-tennis:${{ github.sha }}
-            ghcr.io/${{ github.repository_owner }}/table-tennis:latest
+            ghcr.io/li-ninja/table-tennis:${{ github.sha }}
+            ghcr.io/li-ninja/table-tennis:latest
 
   deploy:
     needs: docker-image
