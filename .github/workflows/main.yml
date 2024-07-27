@@ -31,6 +31,9 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: List output
+        run: ls -lR dist
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
