@@ -2,10 +2,10 @@ name: CI/CD Pipeline
 
 on:
   push:
-    # tags:
-    #   - '*'
-    branches:
-      - chore/github-action
+    tags:
+      - '*'
+    # branches:
+    #   - 'main'
 
 jobs:
   build:
