@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.1.4',
+    list: [
+      '積分賽記錄增加搜尋賽事名稱的選項',
+    ],
+  },
+  {
     version: 'v1.0.1',
     list: [
       '積分賽記錄修正會跳出錯誤',

@@ -6,9 +6,10 @@ interface IProps {
   id: number | undefined;
   disable?: boolean;
   setId: (id: number) => void;
+  className?: string;
 }
 
-export default function PlayerSelect({ id, disable, setId }: IProps) {
+export default function PlayerSelect({ id, disable, setId, className }: IProps) {
   const { playerList } = usePlayerStore(state => state);
   const list = playerList.map(item => ({
     value: item.id,
@@ -17,6 +18,7 @@ export default function PlayerSelect({ id, disable, setId }: IProps) {
 
   return (
     <Select
+      className={className}
       value={id}
       disabled={disable}
       showSearch
