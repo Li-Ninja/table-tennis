@@ -22,7 +22,7 @@ export default function PlayerProfile({ playerId }: IProps) {
   const racketType = (() => {
     switch (player.racketType) {
       case RacketTypeEnum.Penhold:
-        return '直拍';
+        return '直板';
       case RacketTypeEnum.ChinesePenhold:
         return '中直';
       case RacketTypeEnum.Shakehand:
