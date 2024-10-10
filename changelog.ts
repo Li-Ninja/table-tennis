@@ -1,6 +1,6 @@
 export default [
   {
-    version: 'v1.2.0',
+    version: 'v1.2',
     list: [
       '增加選手頁面',
       '積分表可以點擊選手名稱來查看選手的資訊',
@@ -8,13 +8,13 @@ export default [
     ],
   },
   {
-    version: 'v1.1.4',
+    version: 'v1.1',
     list: [
       '積分賽記錄增加搜尋賽事名稱的選項',
     ],
   },
   {
-    version: 'v1.0.1',
+    version: 'v1.0',
     list: [
       '積分賽記錄修正會跳出錯誤',
       '積分賽記錄預設搜尋最近 7 日的記錄',
@@ -24,7 +24,7 @@ export default [
     ],
   },
   {
-    version: 'v1.0.0',
+    version: 'v1.0',
     list: [
       '增加更新日誌',
       '積分賽記錄的日期選擇與按鈕調整',
@@ -33,7 +33,7 @@ export default [
     ],
   },
   {
-    version: 'v0.2.4',
+    version: 'v0.2',
     list: [
       '積分表增加欄位「積分更新時間」',
       '積分表超過 60 日未比賽時隱藏該選手的排名',

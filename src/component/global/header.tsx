@@ -119,7 +119,7 @@ export default function Header(): JSX.Element {
 
       <div className="absolute right-4 top-4">
         <Badge
-          count={`v${process.env.version?.replace(/-.*$/, '')}`}
+          count={`v${process.env.version?.replace(/^(\d+\.\d+)\.\d+$/, '$1')}`}
           offset={[-10, -5]}
           color='#f3956a'
         >
