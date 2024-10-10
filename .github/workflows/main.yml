@@ -33,10 +33,14 @@ jobs:
       - name: Build and list output
         run: |
           yarn build
-          ls -lR
           pwd
           echo "Listing contents of current directory"
           ls -al
+
+      - name: List .next directory
+        run: |
+          echo "Listing contents of .next directory"
+          ls -lR .next
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
