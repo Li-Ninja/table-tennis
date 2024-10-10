@@ -54,7 +54,7 @@ export default function Header(): JSX.Element {
           priority
           />
       </div>
-      <TETabs className="flex mt-12">
+      <TETabs className="flex mt-12 border-primary">
         <Link
           href="/"
           passHref
