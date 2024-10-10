@@ -7,7 +7,9 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import React, {
+  useEffect, useState,
+} from 'react';
 import {
   TETabs,
   TETabsItem,
@@ -15,6 +17,7 @@ import {
 import ChangelogDrawer from '@/component/global/changelogDrawer';
 
 export default function Header(): JSX.Element {
+  const pathname = usePathname(); // 獲取當前路徑
   const [justifyActive, setJustifyActive] = useState(usePathname().replaceAll('/', ''));
   const handleJustifyClick = (value: string) => {
     if (value === justifyActive) {
@@ -23,6 +26,10 @@ export default function Header(): JSX.Element {
 
     setJustifyActive(value);
   };
+
+  useEffect(() => {
+    setJustifyActive(pathname.replaceAll('/', ''));
+  }, [pathname]);
 
   // #region drawer
   const [isShowDrawer, setIsShowDrawer] = useState(false);
@@ -94,6 +101,18 @@ export default function Header(): JSX.Element {
             tag="div"
           >
             積分賽記錄
+          </TETabsItem>
+        </Link>
+        <Link
+          href="/player"
+          passHref
+        >
+          <TETabsItem
+            onClick={() => handleJustifyClick('player')}
+            active={justifyActive === 'player'}
+            tag="div"
+          >
+            選手
           </TETabsItem>
         </Link>
       </TETabs>

@@ -9,6 +9,7 @@ import {
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import Link from 'next/link';
 import React, {
   useEffect, useState,
 } from 'react';
@@ -81,12 +82,7 @@ export default function Ranking() {
   }
 
   const rankTips = <span>點擊排名可以查看選手的比賽記錄</span>;
-
-  // #region router
-  const handleRouteChange = (id: number) => {
-    window.location.href = `${window.location.origin}/rankingHistory?id=${id}`;
-  };
-  // #endregion
+  const playerTips = <span>點擊名字可以查看選手的資訊</span>;
 
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col">
@@ -100,10 +96,14 @@ export default function Ranking() {
                   #
                   <Tooltip className="ml-1" placement="bottom" title={rankTips}>
                     <QuestionCircleOutlined />
-
                   </Tooltip>
                 </th>
-                <th scope="col" className="px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-600">選手</th>
+                <th scope="col" className="px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-600">
+                  選手
+                  <Tooltip className="ml-1" placement="bottom" title={playerTips}>
+                    <QuestionCircleOutlined />
+                  </Tooltip>
+                </th>
                 <th scope="col" className="px-6 py-4">積分</th>
                 <th scope="col" className="px-6 py-4">累計場次</th>
                 <th scope="col" className="px-6 py-4">勝率</th>
@@ -124,38 +124,44 @@ export default function Ranking() {
                 <tr
                   key={index}
                   style={
-                    index === 0 ? styles.firstPlace
-                      : index === 1 ? styles.secondPlace
-                        : index === 2 ? styles.thirdPlace : {}
+                    item.rank === 1 ? styles.firstPlace
+                      : item.rank === 2 ? styles.secondPlace
+                        : item.rank === 3 ? styles.thirdPlace : {}
                     }
                   className="border-b border-neutral-500 bg-neutral-700">
                   <td
                     className="whitespace-nowrap px-3 py-4 font-medium sticky top-0 left-0 z-20 bg-neutral-700 border-b border-neutral-500"
                     style={
-                    index === 0 ? styles.firstPlace
-                      : index === 1 ? styles.secondPlace
-                        : index === 2 ? styles.thirdPlace : {}
+                    item.rank === 1 ? styles.firstPlace
+                      : item.rank === 2 ? styles.secondPlace
+                        : item.rank === 3 ? styles.thirdPlace : {}
                     }>
-                    <Button type="primary" onClick={() => handleRouteChange(item.id)}>
-                      {index + 1}
+                    <Button type="primary" autoInsertSpace={false}>
+                      <Link href={`/rankingHistory?id=${item.id}`}>
+                        {item.rank}
+                      </Link>
                     </Button>
 
                   </td>
                   <td
                     className="whitespace-nowrap px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-700 border-b border-neutral-500"
                     style={
-                    index === 0 ? styles.firstPlace
-                      : index === 1 ? styles.secondPlace
-                        : index === 2 ? styles.thirdPlace : {}
+                    item.rank === 1 ? styles.firstPlace
+                      : item.rank === 2 ? styles.secondPlace
+                        : item.rank === 3 ? styles.thirdPlace : {}
                     }
                   >
-                    {index === 0 ? '🏆 '
-                      : index === 1 ? '🥈 '
-                        : index === 2 ? '🥉 '
-                          : index === 3 ? '🏅 '
-                            : index === 4 ? '🎖 ' : ''
+                    <Button type="primary" autoInsertSpace={false}>
+                      <Link href={`/player?id=${item.id}`}>
+                        {item.rank === 1 ? '🏆 '
+                          : item.rank === 2 ? '🥈 '
+                            : item.rank === 3 ? '🥉 '
+                              : item.rank === 4 ? '🏅 '
+                                : item.rank === 5 ? '🎖 ' : ''
                       }
-                    {item.name}
+                        {item.name}
+                      </Link>
+                    </Button>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
                   <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
