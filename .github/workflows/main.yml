@@ -37,15 +37,11 @@ jobs:
           echo "Listing contents of current directory"
           ls -al
 
-      - name: List .next directory
-        run: |
-          echo "Listing contents of .next directory"
-          ls -lR .next
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: next-artifacts
+          include-hidden-files: true
           path: .next
           retention-days: 15
 
