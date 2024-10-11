@@ -53,16 +53,16 @@ export default function PlayerProfile({ playerId }: IProps) {
   const backhandRubberType = getRubberType(player.backhandRubberType);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center xl:justify-start gap-10">
+    <div className="flex flex-col md:flex-row justify-center xl:justify-start gap-y-3 md:gap-y-10">
       <div className="flex justify-center">
-        <img className="object-cover" src={playerImage} alt="avatar" style={{ width: 400, height: 400, borderRadius: '20%' }} />
+        <img className="object-cover h-[200px] md:h-[400px] md:w-[400px] rounded-[20%]" src={playerImage} alt="avatar" />
       </div>
-      <div className="flex flex-col justify-center items-center md:items-start gap-8">
-        <div className="text-6xl font-bold">{player.name}</div>
+      <div className="flex flex-col justify-center items-center md:items-start gap-4 md:gap-8">
+        <div className="text-3xl md:text-6xl font-bold">{player.name}</div>
         <div className="flex">
-          <div className="flex flex-col mr-20 p-2  gap-y-10 whitespace-nowrap">
+          <div className="flex flex-col mr-2 sm:mr-10 md:mr-20 p-2  gap-y-10 whitespace-nowrap">
             <div>TTT Ranking</div>
-            <div className="text-7xl font-bold"># {player.rank ?? 0}</div>
+            <div className="text-4xl md:text-7xl font-bold"># {player.rank ?? 0}</div>
           </div>
           <div className="flex justify-center border-l border-dashed border-slate-400 p-2 pl-8 whitespace-nowrap">
             <div className="flex flex-col gap-y-5 justify-center mr-3">
@@ -79,7 +79,7 @@ export default function PlayerProfile({ playerId }: IProps) {
         </div>
         <div className="flex items-end">
           <div className="mr-5">Score</div>
-          <div className="text-5xl font-bold">{player.score}</div>
+          <div className="text-2xl md:text-5xl font-bold">{player.score}</div>
         </div>
       </div>
     </div>
