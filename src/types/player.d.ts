@@ -16,4 +16,5 @@ export interface Player {
   winningCount: number;
   latestResultDateTime?: string;
   updateDateTime?: string;
+  isOnLeave: boolean;
 }

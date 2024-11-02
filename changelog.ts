@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.3',
+    list: [
+      '休賽中的選手在積分表中依然會顯示',
+    ],
+  },
+  {
     version: 'v1.2',
     list: [
       '增加選手頁面',

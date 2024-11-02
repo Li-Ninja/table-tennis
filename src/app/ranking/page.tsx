@@ -40,7 +40,7 @@ export default function Ranking() {
 
         const playerUpdateDate = dayjs(player.latestResultDateTime);
 
-        return playerUpdateDate.isAfter(twoMonthsAgo);
+        return player.isOnLeave || playerUpdateDate.isAfter(twoMonthsAgo);
       })
       .sort((a, b) => b.score - a.score);
 
@@ -167,8 +167,8 @@ export default function Ranking() {
                   <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
                   <td className="whitespace-nowrap px-6 py-4">{winningRate(item)}</td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    {item.latestResultDateTime ? dayjs(item.latestResultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : ''}
-                    {isMoreThanOneMonthOld(item.latestResultDateTime)
+                    {item.isOnLeave ? '休賽中' : item.latestResultDateTime ? dayjs(item.latestResultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : ''}
+                    {!item.isOnLeave && isMoreThanOneMonthOld(item.latestResultDateTime)
                       ? <Tooltip className="ml-1" placement="bottom" title={daysFromTodayTips(item.latestResultDateTime)}>
                         <ExclamationCircleOutlined style={{ color: 'gray' }} />
                       </Tooltip>
