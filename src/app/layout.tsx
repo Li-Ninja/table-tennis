@@ -9,8 +9,8 @@ import 'tw-elements-react/dist/css/tw-elements-react.min.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Table Tennis Mystery Zone 51',
-  description: 'Table Tennis Mystery Zone 51"',
+  title: 'Ttt 51',
+  description: 'Taiwan Table Tennis 51"',
 };
 
 const font = noto({ weight: ['200', '400', '500', '700'], subsets: ['latin'] });
