@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.4',
+    list: [
+      'Logo 圖示更換',
+    ],
+  },
+  {
     version: 'v1.3',
     list: [
       '休賽中的選手在積分表中依然會顯示',

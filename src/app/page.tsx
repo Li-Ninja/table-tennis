@@ -5,7 +5,7 @@ export default function Home() {
     <div>
       <div className="flex justify-center items-center self-center h-[50vh]">
         <Image
-          src="/ttt_51_logo.png"
+          src="/ttt51/home.png"
           alt="TTT Logo"
           width="70"
           height="10"
@@ -13,7 +13,7 @@ export default function Home() {
           priority
           />
       </div>
-      <div className="text-center text-3xl">桌球神秘 51 區首頁</div>
+      <div className="text-center text-3xl">Taiwan Table Tennis 51</div>
     </div>
   );
 }

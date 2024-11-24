@@ -46,7 +46,7 @@ export default function Header(): JSX.Element {
     <header className="mb-3 flex relative">
       <div className="flex justify-center items-center mr-12">
         <Image
-          src="/ttt51.png"
+          src="/ttt51/logo.png"
           alt="TTT Logo"
           width="64"
           height="10"
