@@ -7,8 +7,9 @@ export default function Home() {
         <Image
           src="/ttt51/home.png"
           alt="TTT Logo"
-          width="70"
-          height="10"
+          width="1600"
+          height="1600"
+          layout="intrinsic"
           className="w-64 col-12"
           priority
           />
