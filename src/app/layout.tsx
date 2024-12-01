@@ -24,6 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={classNames('mx-2 mt-2', font.className)}>
         <ApiRegistry />
         <AntdRegistry>
