@@ -42,7 +42,16 @@ export default function Ranking() {
 
         return player.isOnLeave || playerUpdateDate.isAfter(twoMonthsAgo);
       })
-      .sort((a, b) => b.score - a.score);
+      .sort((a, b) => {
+        if (b.score !== a.score) {
+          return b.score - a.score;
+        }
+
+        const bWinningRate = (b.winningCount / b.resultCount);
+        const aWinningRate = (a.winningCount / a.resultCount);
+
+        return bWinningRate - aWinningRate;
+      });
 
     setList(filteredData);
   }, [playerList]);
