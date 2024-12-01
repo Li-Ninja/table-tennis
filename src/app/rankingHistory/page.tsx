@@ -61,7 +61,7 @@ export default function RankingHistory() {
       key: 'time',
     },
     {
-      title: '選手A',
+      title: '選手 A',
       dataIndex: 'player_nameA1',
       key: 'player_nameA1',
     },
@@ -72,7 +72,7 @@ export default function RankingHistory() {
       width: 120,
     },
     {
-      title: '選手B',
+      title: '選手 B',
       dataIndex: 'player_nameB1',
       key: 'player_nameB1',
     },
@@ -212,12 +212,14 @@ export default function RankingHistory() {
           className="flex-1"
           id={playerA}
           setId={setPlayerA}
+          placeholder='選手 A'
         />
         <PlayerSelect
           className="flex-1"
           id={playerB}
           setId={setPlayerB}
           disable={!playerA}
+          placeholder='選手 B'
         />
         <Button
           loading={isLoading}

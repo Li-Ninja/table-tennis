@@ -7,9 +7,10 @@ interface IProps {
   disable?: boolean;
   setId: (id: number) => void;
   className?: string;
+  placeholder?: string;
 }
 
-export default function PlayerSelect({ id, disable, setId, className }: IProps) {
+export default function PlayerSelect({ id, disable, setId, className, placeholder = '選手名稱' }: IProps) {
   const { playerList } = usePlayerStore(state => state);
   const list = playerList.map(item => ({
     value: item.id,
@@ -22,7 +23,7 @@ export default function PlayerSelect({ id, disable, setId, className }: IProps) 
       value={id}
       disabled={disable}
       showSearch
-      placeholder="選手名稱"
+      placeholder={placeholder}
       onChange={(i: number) => setId(i)}
       size="large"
       allowClear
