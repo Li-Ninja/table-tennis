@@ -48,8 +48,8 @@ export default function Header(): JSX.Element {
         <Image
           src="/ttt51/logo.png"
           alt="TTT Logo"
-          width="64"
-          height="10"
+          width={64}
+          height={64}
           className="w-full h-auto"
           priority
           />
