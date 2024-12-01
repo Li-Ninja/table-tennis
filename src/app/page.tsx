@@ -9,6 +9,7 @@ export default function Home() {
           alt="TTT Logo"
           width="1600"
           height="1600"
+          quality={100}
           layout="intrinsic"
           className="w-64 col-12"
           priority
