@@ -53,7 +53,7 @@ export default function PlayerProfile({ playerId }: IProps) {
   const backhandRubberType = getRubberType(player.backhandRubberType);
 
   return (
-    <div className="flex flex-col md:flex-row justify-center xl:justify-start gap-y-3 md:gap-y-10">
+    <div className="flex flex-col md:flex-row justify-center xl:justify-start gap-y-3 md:gap-y-0 md:gap-x-5">
       <div className="flex justify-center">
         <img className="object-cover h-[200px] md:h-[400px] md:w-[400px] rounded-[20%]" src={playerImage} alt="avatar" />
       </div>
