@@ -8,14 +8,17 @@ interface IProps {
   setId: (id: number) => void;
   className?: string;
   placeholder?: string;
+  excludeId?: number;
 }
 
-export default function PlayerSelect({ id, disable, setId, className, placeholder = '選手名稱' }: IProps) {
+export default function PlayerSelect({ id, disable, setId, className, excludeId, placeholder = '選手名稱' }: IProps) {
   const { playerList } = usePlayerStore(state => state);
-  const list = playerList.map(item => ({
-    value: item.id,
-    label: item.name,
-  }));
+  const list = playerList
+    .filter(item => item.id !== excludeId)
+    .map(item => ({
+      value: item.id,
+      label: item.name,
+    }));
 
   return (
     <Select
@@ -27,12 +30,11 @@ export default function PlayerSelect({ id, disable, setId, className, placeholde
       onChange={(i: number) => setId(i)}
       size="large"
       allowClear
-
       optionFilterProp="children"
       filterOption={(input, option) => (option?.label ?? '').includes(input)}
       filterSort={(optionA, optionB) => (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-    }
+      }
       options={list}
-  />
+    />
   );
 }

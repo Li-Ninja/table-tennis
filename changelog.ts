@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.6',
+    list: [
+      '選手比較表',
+    ],
+  },
+  {
     version: 'v1.5',
     list: [
       '積分表同分時，選手顯示順序會依照勝率由高到低排序',
