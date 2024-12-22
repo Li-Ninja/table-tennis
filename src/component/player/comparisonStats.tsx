@@ -18,6 +18,9 @@ interface ComparisonStatsProps {
     playerA: PlayerComparisonData;
     playerB: PlayerComparisonData;
   } | null;
+}
+
+interface ComparisonComponentProps extends ComparisonStatsProps {
   type: 'all' | 'recent';
 }
 
@@ -56,7 +59,7 @@ const StatCard = ({
   </Card>
 );
 
-const StatsSection = ({ playerA, playerB, data, type }: ComparisonStatsProps) => (
+const StatsSection = ({ playerA, playerB, data, type }: ComparisonComponentProps) => (
   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
     <StatCard
       title="整體勝率"
@@ -105,7 +108,7 @@ const StatsSection = ({ playerA, playerB, data, type }: ComparisonStatsProps) =>
   </div>
 );
 
-const DetailedAnalysis = ({ playerA, playerB, data }: ComparisonStatsProps) => (
+const DetailedAnalysis = ({ playerA, playerB, data }: ComparisonComponentProps) => (
   <div className="mt-6 space-y-6">
     <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
       <h3 className="text-lg font-bold text-gray-200 mb-4">局數分析</h3>
@@ -189,7 +192,7 @@ const DetailedAnalysis = ({ playerA, playerB, data }: ComparisonStatsProps) => (
   </div>
 );
 
-const YearlyStats = ({ playerA, playerB, data }: ComparisonStatsProps) => {
+const YearlyStats = ({ playerA, playerB, data }: ComparisonComponentProps) => {
   const currentYear = dayjs().year();
   const startYear = 2024;
   const [selectedYear, setSelectedYear] = useState(currentYear);
