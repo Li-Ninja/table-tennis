@@ -98,7 +98,7 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no ./docker-compose.yml ${{ secrets.GCP_USER }}@${{ secrets.GCP_SERVER }}:/home/${{ secrets.GCP_USER }}
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCP_USER }}@${{ secrets.GCP_SERVER }} << EOF
-          docker-compose pull
+          docker-compose pull table-tennis
           docker-compose up -d --no-deps --build --force-recreate
           docker image prune -f
           EOF
