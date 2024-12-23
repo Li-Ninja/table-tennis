@@ -41,20 +41,20 @@ const StatCard = ({
   playerAName,
   playerBName,
 }: StatCardProps) => (
-  <Card className="bg-gray-800 border-gray-700">
-    <h3 className="text-lg font-bold text-gray-200 mb-4">{title}</h3>
+  <Card className="bg-gray-800 border-gray-700 custom-card">
+    <h3 className="text-lg font-bold text-gray-200 mb-4 text-center">{title}</h3>
     <div className="grid grid-cols-2 gap-4">
       <div className="text-center">
-        <div className="text-2xl font-bold text-primary">{playerAValue}</div>
-        <div className="text-sm text-gray-400">{playerAName}</div>
+        <div className="text-base md:text-2xl font-bold text-primary">{playerAValue}</div>
+        <div className=" text-xs md:text-sm text-gray-400">{playerAName}</div>
       </div>
       <div className="text-center">
-        <div className="text-2xl font-bold text-primary">{playerBValue}</div>
-        <div className="text-sm text-gray-400">{playerBName}</div>
+        <div className="text-base md:text-2xl font-bold text-primary">{playerBValue}</div>
+        <div className="text-xs md:text-sm text-gray-400">{playerBName}</div>
       </div>
     </div>
     {description && (
-      <div className="mt-2 text-sm text-gray-400 text-center">{description}</div>
+      <div className="mt-2 text-xs md:text-sm text-gray-400 text-center">{description}</div>
     )}
   </Card>
 );
@@ -273,6 +273,21 @@ export default function ComparisonStats({ playerA, playerB, data }: ComparisonSt
         }
         .custom-dark-tabs .ant-tabs-nav::before {
           @apply border-b border-white/10 !important;
+        }
+        .custom-card .ant-card-body {
+          padding: 12px;
+        }
+
+        @media (min-width: 768px) {
+          .custom-card .ant-card-body {
+            padding: 26px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .custom-card .ant-card-body {
+            padding: 24px;
+          }
         }
       `}</style>
     </div>
