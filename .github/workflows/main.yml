@@ -75,6 +75,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/li-ninja/table-tennis:${{ github.sha }}
+            ghcr.io/li-ninja/table-tennis:${{ github.ref_name }}
             ghcr.io/li-ninja/table-tennis:latest
 
   deploy:
@@ -89,6 +90,17 @@ jobs:
           pwd
           ls -la
 
+      - name: Replace TAG locally in docker-compose.yml
+        run: |
+          TAG=${{ github.ref_name }}
+          if [ -z "$TAG" ]; then
+            TAG=${{ github.sha }}
+          fi
+          echo "Using TAG: $TAG"
+          sed -i "s/\${TAG}/$TAG/g" docker-compose.yml
+          echo "Modified docker-compose.yml:"
+          cat docker-compose.yml
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -98,7 +110,7 @@ jobs:
         run: |
           scp -o StrictHostKeyChecking=no ./docker-compose.yml ${{ secrets.GCP_USER }}@${{ secrets.GCP_SERVER }}:/home/${{ secrets.GCP_USER }}
           ssh -o StrictHostKeyChecking=no ${{ secrets.GCP_USER }}@${{ secrets.GCP_SERVER }} << EOF
-          docker-compose pull table-tennis
+          docker-compose pull
           docker-compose up -d --no-deps --build --force-recreate
           docker image prune -f
           EOF

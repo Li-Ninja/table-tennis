@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   table-tennis:
-    image: ghcr.io/li-ninja/table-tennis:latest
+    image: ghcr.io/li-ninja/table-tennis:${TAG}
     ports:
       - 5650:8080
     restart: always
