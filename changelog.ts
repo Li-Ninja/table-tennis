@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.7',
+    list: [
+      '網頁標題根據不同頁面去做顯示',
+    ],
+  },
+  {
     version: 'v1.6',
     list: [
       '選手比較表',

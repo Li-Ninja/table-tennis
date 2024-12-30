@@ -76,7 +76,7 @@ export default function Header(): JSX.Element {
             active={justifyActive === 'result'}
             tag="div"
           >
-            第一屆會內賽
+            2024 年終賽
           </TETabsItem>
         </Link>
         <Link
@@ -100,7 +100,7 @@ export default function Header(): JSX.Element {
             active={justifyActive === 'rankingHistory'}
             tag="div"
           >
-            積分賽記錄
+            積分記錄
           </TETabsItem>
         </Link>
         <Link

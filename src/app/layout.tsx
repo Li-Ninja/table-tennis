@@ -9,7 +9,7 @@ import 'tw-elements-react/dist/css/tw-elements-react.min.css';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Ttt 51',
+  title: 'Ttt51 - 首頁',
   description: 'Taiwan Table Tennis 51"',
 };
 
