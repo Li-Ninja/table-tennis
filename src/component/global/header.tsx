@@ -76,7 +76,7 @@ export default function Header(): JSX.Element {
             active={justifyActive === 'result'}
             tag="div"
           >
-            2024 年終賽
+            2023 年終賽
           </TETabsItem>
         </Link>
         <Link
