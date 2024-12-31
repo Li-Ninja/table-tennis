@@ -93,6 +93,9 @@ export default function Ranking() {
   const rankTips = <span>點擊排名可以查看選手的比賽記錄</span>;
   const playerTips = <span>點擊名字可以查看選手的資訊</span>;
 
+  // NOTE: 如果是 12 月，就顯示明年
+  const getResultCountByYearlyTitle = (date = dayjs()) => `${date.month() === 11 ? date.year() + 1 : date.year()} 累計場次`;
+
   return (
     <div className="overflow-auto bg-gray-900 flex flex-col">
       <div className="inline-block min-w-full">
@@ -114,7 +117,8 @@ export default function Ranking() {
                   </Tooltip>
                 </th>
                 <th scope="col" className="px-6 py-4">積分</th>
-                <th scope="col" className="px-6 py-4">累計場次</th>
+                <th scope="col" className="px-6 py-4">{getResultCountByYearlyTitle()}</th>
+                <th scope="col" className="px-6 py-4">總累計場次</th>
                 <th scope="col" className="px-6 py-4">勝率</th>
                 <th scope="col" className="px-6 py-4">
                   最近比賽時間
@@ -173,6 +177,7 @@ export default function Ranking() {
                     </Button>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{item.resultCountByYearly} 場</td>
                   <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
                   <td className="whitespace-nowrap px-6 py-4">{winningRate(item)}</td>
                   <td className="whitespace-nowrap px-6 py-4">

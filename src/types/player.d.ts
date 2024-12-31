@@ -13,6 +13,7 @@ export interface Player {
   forehandRubberType: RubberTypeEnum;
   backhandRubberType: RubberTypeEnum;
   resultCount: number;
+  resultCountByYearly: number;
   winningCount: number;
   latestResultDateTime?: string;
   updateDateTime?: string;
