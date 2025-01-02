@@ -3,12 +3,9 @@ import Image from 'next/image';
 export default function About() {
   return (
     <main className="bg-black text-white min-h-screen py-6">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-2 lg:px-8">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            關於我們
-          </h1>
           <p className="text-md text-gray-300">
             Ttt51 致力於推廣桌球文化，打造公平競爭與持續進步的環境。
           </p>

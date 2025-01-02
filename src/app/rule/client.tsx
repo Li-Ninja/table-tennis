@@ -3,12 +3,9 @@ import React from 'react';
 export default function Rule() {
   return (
     <main className="bg-black text-white min-h-screen py-6">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-2 lg:px-8">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
-            賽制
-          </h1>
           <p className="text-md text-gray-300">
             關於比賽規則和積分的詳細介紹。
           </p>
