@@ -115,7 +115,7 @@ export default function Header(): JSX.Element {
           offset={[-10, -5]}
           color='#f3956a'
         >
-          <Button className="flex justify-center items-center" onClick={showChangelogDrawer} >
+          <Button className="hidden md:flex justify-center items-center" onClick={showChangelogDrawer} >
             <HistoryOutlined /> 更新日誌
           </Button>
         </Badge>
@@ -128,6 +128,16 @@ export default function Header(): JSX.Element {
         open={isShowMenuDrawer}
       >
         <div className="flex flex-col space-y-4">
+          <div
+            className="p-2 cursor-pointer flex items-center"
+            onClick={() => {
+              showChangelogDrawer();
+              onCloseMenu();
+            }}
+          >
+            <HistoryOutlined className="mr-2" /> 更新日誌
+          </div>
+          <div className="border-t border-gray-200 my-2"></div>
           {menuItems.map(item => (
             <Link
               key={item.path}
