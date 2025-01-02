@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.8',
+    list: [
+      '增加關於我們的頁面',
+    ],
+  },
+  {
     version: 'v1.7',
     list: [
       '網頁標題根據不同頁面去做顯示',

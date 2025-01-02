@@ -115,6 +115,18 @@ export default function Header(): JSX.Element {
             選手
           </TETabsItem>
         </Link>
+        <Link
+          href="/about"
+          passHref
+        >
+          <TETabsItem
+            onClick={() => handleJustifyClick('about')}
+            active={justifyActive === 'about'}
+            tag="div"
+          >
+            關於我們
+          </TETabsItem>
+        </Link>
       </TETabs>
 
       <div className="absolute right-4 top-4">
