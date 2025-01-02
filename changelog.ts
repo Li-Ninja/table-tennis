@@ -3,6 +3,7 @@ export default [
     version: 'v1.8',
     list: [
       '增加關於我們的頁面',
+      '增加賽制頁面',
     ],
   },
   {

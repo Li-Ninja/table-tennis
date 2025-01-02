@@ -116,6 +116,18 @@ export default function Header(): JSX.Element {
           </TETabsItem>
         </Link>
         <Link
+          href="/rule"
+          passHref
+        >
+          <TETabsItem
+            onClick={() => handleJustifyClick('rule')}
+            active={justifyActive === 'rule'}
+            tag="div"
+          >
+            賽制
+          </TETabsItem>
+        </Link>
+        <Link
           href="/about"
           passHref
         >
