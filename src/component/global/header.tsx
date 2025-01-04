@@ -76,14 +76,14 @@ export default function Header(): JSX.Element {
           <MenuOutlined />
         </Button>
       </div>
-      <div className="flex-1 flex justify-center items-center">
-        <div className="flex justify-center items-center md:mr-12">
+      <div className="mx-12 flex-1 md:flex-none flex justify-center items-center">
+        <div className="flex justify-center items-center">
           <Image
             src="/ttt51/logo.png"
             alt="TTT Logo"
             width={64}
             height={64}
-            className="w-full h-auto"
+            className="w-[48px] md:w-full h-auto"
             priority
             />
         </div>
