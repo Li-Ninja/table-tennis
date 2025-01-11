@@ -10,7 +10,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Ttt51 - 首頁',
-  description: 'Taiwan Table Tennis 51"',
+  description: 'Taiwan Table Tennis 51',
 };
 
 const font = noto({ weight: ['200', '400', '500', '700'], subsets: ['latin'] });
