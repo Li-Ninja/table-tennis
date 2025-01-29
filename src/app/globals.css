@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 :root {
+  --primary-color: theme('colors.primary.DEFAULT');
+  --primary-color-light: theme('colors.primary.light');
+  --primary-color-dark: theme('colors.primary.dark');
+  --primary-color-darker: theme('colors.primary.darker');
+
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;

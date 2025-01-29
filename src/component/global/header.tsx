@@ -113,7 +113,7 @@ export default function Header(): JSX.Element {
         <Badge
           count={`v${process.env.version?.replace(/^(\d+\.\d+)\.\d+$/, '$1')}`}
           offset={[-10, -5]}
-          color='#f3956a'
+          color="var(--primary-color-light)"
         >
           <Button className="hidden md:flex justify-center items-center" onClick={showChangelogDrawer} >
             <HistoryOutlined /> 更新日誌
