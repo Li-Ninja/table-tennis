@@ -51,7 +51,7 @@ const CustomSeed = ({ seed }: ICustomRenderSeedProps) => {
   );
 };
 
-const CustomTitle = (title: React.ReactNode) => <div className="text-primary text-center">{title}</div>;
+const CustomTitle = (title: React.ReactNode) => <div className="text-gray text-center">{title}</div>;
 
 export default function BracketComponent({ rounds }: { rounds: ICustomRoundProps[]}) {
   return (

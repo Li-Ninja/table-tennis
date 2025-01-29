@@ -3,6 +3,7 @@ export default [
     version: 'v1.9',
     list: [
       '優化選單列效果',
+      '主題色從橘色改成紅色',
     ],
   },
   {

@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import { useServerInsertedHTML } from 'next/navigation';
 import React from 'react';
+import { colors } from '@/config/theme';
 
 export default function AntdRegistry({ children }: React.PropsWithChildren) {
   const isServerInserted = React.useRef<boolean>(false);
@@ -18,7 +19,7 @@ export default function AntdRegistry({ children }: React.PropsWithChildren) {
   const customTheme = {
     algorithm: darkAlgorithm,
     token: {
-      colorPrimary: '#FF6B00',
+      colorPrimary: colors.primary.DEFAULT,
     },
   };
 

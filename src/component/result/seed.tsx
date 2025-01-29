@@ -1,7 +1,8 @@
 import { ISeedProps } from 'react-brackets';
 import styled from 'styled-components';
+import { colors } from '@/config/theme';
 
-const borderColor = '#FF6B00';
+const borderColor = colors.primary.DEFAULT;
 
 export const V2 = styled.div`color: blue`;
 
