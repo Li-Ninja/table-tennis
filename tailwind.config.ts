@@ -24,6 +24,7 @@ const config: Config = {
         ':root': {
           '--primary-color': colors.primary.DEFAULT,
           '--primary-color-light': colors.primary.LIGHT,
+          '--secondary-color': colors.secondary.DEFAULT,
         },
       });
     }),

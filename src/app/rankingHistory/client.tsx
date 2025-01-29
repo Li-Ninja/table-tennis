@@ -32,6 +32,104 @@ interface DataType {
   resultItemList: string[];
 }
 
+const ScoreDisplay = ({ scores }: { scores: string }) => {
+  const scoreArray = scores.split(' ').filter(s => s.trim());
+  const totalGames = scoreArray.length;
+  const gamesPerRow = 3; // 每行顯示的局數
+  const rows = Math.ceil(totalGames / gamesPerRow);
+
+  return (
+    <div className="flex flex-col gap-2 mt-1 md:mt-0">
+      {[...Array(rows)].map((_, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={`
+            flex
+            ${rowIndex > 0 ? 'border-gray-700/30' : ''}
+          `}
+        >
+          {scoreArray.slice(rowIndex * gamesPerRow, (rowIndex + 1) * gamesPerRow)
+            .map((score, index) => {
+              const [scoreA, scoreB] = score.split(':');
+              const isWinningScore = Number(scoreA) > Number(scoreB);
+              const isCloseGame = Math.abs(Number(scoreA) - Number(scoreB)) <= 2;
+
+              return (
+                <div
+                  key={index}
+                  className={`
+                    flex items-center justify-center
+                    min-w-[70px] py-1 px-2 mr-2
+                    rounded-md
+                    ${isCloseGame ? 'bg-gray-700/50' : 'bg-gray-800/50'}
+                    border border-gray-700
+                    transition-all duration-200
+                    hover:scale-105
+                    relative
+                  `}
+                >
+                  <div className="absolute -top-2 left-2 text-xs text-gray-500">
+                    {rowIndex * gamesPerRow + index + 1}
+                  </div>
+                  <span className={`${isWinningScore ? 'text-secondary font-bold' : 'text-gray-300'}`}>
+                    {scoreA}
+                  </span>
+                  <span className="mx-1 text-gray-500">:</span>
+                  <span className={`${!isWinningScore ? 'text-secondary font-bold' : 'text-gray-300'}`}>
+                    {scoreB}
+                  </span>
+                </div>
+              );
+            })}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const MatchDisplay = ({ playerA, playerB, score }: {
+  playerA: string;
+  playerB: string;
+  score: string;
+}) => {
+  const [scoreA, scoreB] = score.split(':').map(s => s.trim());
+  const isAWinner = Number(scoreA) > Number(scoreB);
+
+  return (
+    <div className="inline-flex items-center">
+      <div className="w-16 text-right">
+        <span className={`${isAWinner ? 'text-secondary font-bold' : 'text-gray-400'}`}>
+          {playerA}
+        </span>
+      </div>
+
+      <div className="flex items-center mx-2 px-2 py-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
+        <span className={`${isAWinner ? 'text-secondary font-bold' : 'text-gray-300'} w-[12px] text-center`}>
+          {scoreA}
+        </span>
+        <span className="mx-1 text-gray-500">-</span>
+        <span className={`${!isAWinner ? 'text-secondary font-bold' : 'text-gray-300'} w-[12px] text-center`}>
+          {scoreB}
+        </span>
+      </div>
+
+      <div className="w-16 text-left">
+        <span className={`${!isAWinner ? 'text-secondary font-bold' : 'text-gray-400'}`}>
+          {playerB}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+// 新增日期時間顯示組件
+const DateTimeDisplay = ({ date, time }: { date: string; time: string }) => (
+  <div className="flex flex-col items-center">
+    <span className="text-gray-300">{date}</span>
+    <span className="text-sm text-gray-500">{time}</span>
+  </div>
+);
+
 export default function RankingHistory() {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const { eventList } = useEventStore(state => state);
@@ -46,40 +144,41 @@ export default function RankingHistory() {
       title: '#',
       dataIndex: 'index',
       key: 'index',
+      align: 'center',
+      width: 20,
       defaultSortOrder: 'ascend',
       sorter: (a, b) => a.index - b.index,
     },
     {
-      title: '比賽日期',
-      dataIndex: 'date',
-      key: 'date',
-
-    },
-    {
       title: '比賽時間',
-      dataIndex: 'time',
-      key: 'time',
+      key: 'datetime',
+      align: 'center',
+      width: 130,
+      render: (_, record: DataType) => (
+        <DateTimeDisplay
+          date={record.date}
+          time={record.time}
+        />
+      ),
     },
     {
-      title: '選手 A',
-      dataIndex: 'player_nameA1',
-      key: 'player_nameA1',
-    },
-    {
-      title: '比分',
-      dataIndex: 'score',
-      key: 'score',
-      width: 120,
-    },
-    {
-      title: '選手 B',
-      dataIndex: 'player_nameB1',
-      key: 'player_nameB1',
+      title: '對戰',
+      key: 'match',
+      align: 'center',
+      render: (_, record: DataType) => (
+        <MatchDisplay
+          playerA={record.player_nameA1}
+          playerB={record.player_nameB1}
+          score={record.score}
+        />
+      ),
     },
     {
       title: '每局分數',
-      dataIndex: 'resultItemList',
-      key: 'resultItemList',
+      dataIndex: 'scores',
+      key: 'scores',
+      align: 'center',
+      render: (scores: string) => <ScoreDisplay scores={scores} />,
     },
   ];
 
@@ -94,6 +193,7 @@ export default function RankingHistory() {
         score: `${item.scoreA} : ${item.scoreB}`,
         player_nameB1: item.player_nameB1,
         resultItemList: item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `),
+        scores: item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `).join(' '),
       })),
     );
   }
@@ -175,7 +275,7 @@ export default function RankingHistory() {
   // #endregion
 
   return (
-    <div className=" bg-gray-900 flex flex-col p-5">
+    <div className="bg-gray-900 flex flex-col p-2 md:p-5">
       <div className="flex flex-col md:flex-row mb-2 gap-4 md:gap-y-0 justify-between">
         <EventSelect
           className="flex-1"
@@ -240,9 +340,42 @@ export default function RankingHistory() {
             columns={columns}
             scroll={{ x: 'max-content' }}
             pagination={{ pageSize: 20, position: ['bottomLeft', 'bottomLeft'] }}
+            className="custom-table"
           />
         </div>
       </div>
+      <style jsx global>{`
+        /* 基礎表格樣式 */
+        .custom-table .ant-table-thead > tr > th,
+        .custom-table .ant-table-tbody > tr > td {
+          padding: 4px;
+        }
+
+        /* 排序圖標 - 手機版隱藏 */
+        .custom-table .ant-table-column-sorter {
+          display: none;
+        }
+
+        /* 平板以上樣式 */
+        @media (min-width: 640px) {
+          .custom-table .ant-table-thead > tr > th,
+          .custom-table .ant-table-tbody > tr > td {
+            padding: 8px;
+          }
+
+          .custom-table .ant-table-column-sorter {
+            display: block;
+          }
+        }
+
+        /* 桌面版樣式 */
+        @media (min-width: 1024px) {
+          .custom-table .ant-table-thead > tr > th,
+          .custom-table .ant-table-tbody > tr > td {
+            padding: 16px;
+          }
+        }
+      `}</style>
     </div>
   );
 }

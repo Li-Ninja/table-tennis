@@ -26,7 +26,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={classNames('mx-2 mt-2', font.className)}>
+      <body className={classNames('md:mx-2 mt-2', font.className)}>
         <ApiRegistry />
         <AntdRegistry>
           <Header />

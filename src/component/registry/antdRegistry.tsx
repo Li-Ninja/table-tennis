@@ -20,6 +20,7 @@ export default function AntdRegistry({ children }: React.PropsWithChildren) {
     algorithm: darkAlgorithm,
     token: {
       colorPrimary: colors.primary.DEFAULT,
+      colorSecondary: colors.secondary.DEFAULT,
     },
   };
 
