@@ -81,7 +81,7 @@ deploy:
         BACKEND_IMAGE_NAME="registry.gitlab.com/ninja-ccc/vocabulary/vocabulary-backend:latest";
       fi;
 
-      docker image prune -a --force &&
       docker-compose down &&
+      docker image prune -a --force &&
       docker-compose up -d;
       docker logout "$CI_REGISTRY"'
