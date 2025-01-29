@@ -24,7 +24,6 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18",
     "styled-components": "^6.1.1",
-    "tw-elements-react": "^1.0.0-alpha2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

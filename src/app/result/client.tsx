@@ -1,14 +1,10 @@
 'use client';
 
+import { Tabs } from 'antd';
+import type { TabsProps } from 'antd';
 import React, {
   useEffect, useState,
 } from 'react';
-import {
-  TETabs,
-  TETabsContent,
-  TETabsItem,
-  TETabsPane,
-} from 'tw-elements-react';
 import {
   getResult, getResultItem,
 } from '@/api/result';
@@ -87,7 +83,7 @@ function ResultComponent({ apiData, id, apiData2 }: { apiData: Result[]; id: num
 }
 
 export default function Result() {
-  const [buttonActive, setButtonActive] = useState('tab1');
+  const [activeKey, setActiveKey] = useState('tab1');
   const [apiData, setApiData] = useState<Result[]>([]);
   const [apiResultItem, setApiResultItem] = useState<ResultItem[]>([]);
 
@@ -100,44 +96,27 @@ export default function Result() {
     });
   }, []);
 
-  const handleButtonClick = (value: string) => {
-    if (value === buttonActive) {
-      return;
-    }
-
-    setButtonActive(value);
-  };
+  const items: TabsProps['items'] = [
+    {
+      key: 'tab1',
+      label: '單打',
+      children: <ResultComponent apiData={apiData} id={1} apiData2={apiResultItem} />,
+    },
+    {
+      key: 'tab2',
+      label: '雙打',
+      children: <ResultComponent apiData={apiData} id={2} apiData2={apiResultItem} />,
+    },
+  ];
 
   return (
     <div className="overflow-auto bg-gray-900">
-      <TETabs>
-        <TETabsItem
-          onClick={() => handleButtonClick('tab1')}
-          active={buttonActive === 'tab1'}
-          tag="button"
-          color={buttonActive === 'tab1' ? 'primary' : 'light'}
-          >
-          單打
-        </TETabsItem>
-        <TETabsItem
-          onClick={() => handleButtonClick('tab2')}
-          active={buttonActive === 'tab2'}
-          tag="button"
-          color={buttonActive === 'tab2' ? 'primary' : 'light'}
-        >
-          雙打
-        </TETabsItem>
-      </TETabs>
-
-      <TETabsContent>
-        <TETabsPane show={buttonActive === 'tab1'}>
-          <ResultComponent apiData={apiData} id={1} apiData2={apiResultItem} />
-        </TETabsPane>
-        <TETabsPane show={buttonActive === 'tab2'}>
-          <ResultComponent apiData={apiData} id={2} apiData2={apiResultItem} />
-
-        </TETabsPane>
-      </TETabsContent>
+      <Tabs
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        items={items}
+        className="p-4"
+      />
     </div>
   );
 }

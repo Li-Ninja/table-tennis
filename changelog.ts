@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.9',
+    list: [
+      '優化選單列效果',
+    ],
+  },
+  {
     version: 'v1.8',
     list: [
       '增加關於我們的頁面',

@@ -6,21 +6,17 @@ import {
 import {
   Badge, Button, Drawer,
 } from 'antd';
+import classNames from 'classnames';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, {
-  useEffect,
-  useMemo, useState,
+  useEffect, useMemo, useState,
 } from 'react';
-import {
-  TETabs,
-  TETabsItem,
-} from 'tw-elements-react';
 import ChangelogDrawer from '@/component/global/changelogDrawer';
 
 export default function Header(): JSX.Element {
-  const pathname = usePathname(); // 獲取當前路徑
+  const pathname = usePathname();
 
   const menuItems = useMemo(() => [
     { path: '', label: '首頁' },
@@ -67,58 +63,76 @@ export default function Header(): JSX.Element {
   // #endregion
 
   return (
-    <header className="mb-3 flex relative items-center">
-      <div className="md:hidden absolute left-2">
-        <Button
-          className="flex justify-center items-center"
-          onClick={showMenuDrawer}
-        >
-          <MenuOutlined />
-        </Button>
-      </div>
-      <div className="mx-12 flex-1 md:flex-none flex justify-center items-center">
-        <div className="flex justify-center items-center">
-          <Image
-            src="/ttt51/logo.png"
-            alt="TTT Logo"
-            width={64}
-            height={64}
-            className="w-[48px] md:w-full h-auto"
-            priority
-            />
-        </div>
-        <div className="md:hidden ml-3 text-lg font-medium">
-          Ttt51 - {menuItems.find(item => item.path === justifyActive)?.label || ''}
-        </div>
-      </div>
-      <TETabs className="hidden md:flex mt-12 border-primary">
-        {menuItems.map(item => (
-          <Link
-            key={item.path}
-            href={`/${item.path}`}
-            passHref
+    <header className="text-white">
+      <div className="px-4 py-2 md:py-4 relative max-w-[1920px] mx-auto">
+        {/* 手機版漢堡選單 */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 md:hidden z-10">
+          <Button
+            className="flex justify-center items-center"
+            onClick={showMenuDrawer}
           >
-            <TETabsItem
-              onClick={() => handleJustifyClick(item.path)}
-              active={justifyActive === item.path}
-              tag="div"
-            >
-              {item.label}
-            </TETabsItem>
-          </Link>
-        ))}
-      </TETabs>
-
-      <div className="absolute right-4 top-4">
-        <Badge
-          count={`v${process.env.version?.replace(/^(\d+\.\d+)\.\d+$/, '$1')}`}
-          offset={[-10, -5]}
-          color="var(--primary-color-light)"
-        >
-          <Button className="hidden md:flex justify-center items-center" onClick={showChangelogDrawer} >
-            <HistoryOutlined /> 更新日誌
+            <MenuOutlined />
           </Button>
-        </Badge>
+        </div>
+
+        {/* 主要內容區域 */}
+        <div className="flex items-center">
+          {/* Logo 和選單區域 */}
+          <div className="flex items-center flex-1 min-w-0">
+            {/* Logo 區域 */}
+            <div className="w-full md:w-auto flex justify-center md:justify-start shrink-0">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/ttt51/logo.png"
+                  alt="TTT51 Logo"
+                  width={64}
+                  height={64}
+                  className="w-[48px] md:w-full h-auto mr-2"
+                />
+                <div className="md:hidden ml-3 text-lg font-medium">
+                  Ttt51 - {menuItems.find(item => item.path === justifyActive)?.label || ''}
+                </div>
+              </Link>
+            </div>
+
+            {/* 電腦版選單 */}
+            <nav className="hidden md:flex ml-8 flex-1 min-w-0">
+              <ul className="flex flex-wrap gap-x-8 gap-y-2 justify-start">
+                {menuItems.map(item => (
+                  <li key={item.path} className="flex flex-col">
+                    <Link
+                      href={`/${item.path}`}
+                      onClick={() => handleJustifyClick(item.path)}
+                      className={classNames(
+                        'hover:text-primary transition-colors whitespace-nowrap py-2',
+                        justifyActive === item.path ? 'text-primary border-b-2 border-primary' : 'text-white',
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* 更新日誌按鈕 */}
+          <div className="ml-8 shrink-0">
+            <Badge
+              count={`v${process.env.version?.replace(/^(\d+\.\d+)\.\d+$/, '$1')}`}
+              offset={[-10, -5]}
+              color="var(--primary-color-light)"
+            >
+              <Button
+                className="md:flex justify-center items-center hidden"
+                onClick={showChangelogDrawer}
+              >
+                <HistoryOutlined />
+                <span className="ml-2">更新日誌</span>
+              </Button>
+            </Badge>
+          </div>
+        </div>
       </div>
 
       <Drawer
@@ -138,24 +152,29 @@ export default function Header(): JSX.Element {
             <HistoryOutlined className="mr-2" /> 更新日誌
           </div>
           <div className="border-t border-gray-200 my-2"></div>
-          {menuItems.map(item => (
-            <Link
-              key={item.path}
-              href={`/${item.path}`}
-              onClick={() => {
-                handleJustifyClick(item.path);
-                onCloseMenu();
-              }}
-            >
-              <div className={`p-2 ${justifyActive === item.path ? 'text-primary font-bold' : ''}`}>
-                {item.label}
-              </div>
-            </Link>
-          ))}
+          <ul className="flex flex-col space-y-2">
+            {menuItems.map(item => (
+              <li key={item.path}>
+                <Link
+                  href={`/${item.path}`}
+                  onClick={onCloseMenu}
+                  className={classNames(
+                    'block px-4 py-2 hover:text-primary transition-colors',
+                    justifyActive === item.path ? 'text-primary' : 'text-white',
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Drawer>
 
-      <ChangelogDrawer open={isShowChangelogDrawer} onClose={onCloseChangelog} />
+      <ChangelogDrawer
+        open={isShowChangelogDrawer}
+        onClose={onCloseChangelog}
+      />
     </header>
   );
 }

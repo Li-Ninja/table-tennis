@@ -5,7 +5,6 @@ import { Noto_Sans_SC as noto } from 'next/font/google';
 import Header from '@/component/global/header';
 import AntdRegistry from '@/component/registry/antdRegistry';
 import ApiRegistry from '@/component/registry/apiRegistry';
-import 'tw-elements-react/dist/css/tw-elements-react.min.css';
 import './globals.css';
 
 export const metadata: Metadata = {
