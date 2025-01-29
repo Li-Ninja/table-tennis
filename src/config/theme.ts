@@ -1,6 +1,7 @@
 export const colors = {
   primary: {
-    DEFAULT: '#F22E2E',
+    // cola red
+    DEFAULT: '#F40009',
     LIGHT: '#FF5C5C',
   },
 } as const;
