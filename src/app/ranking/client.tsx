@@ -7,6 +7,7 @@ import {
   Button, Tabs, Tooltip,
 } from 'antd';
 import type { TabsProps } from 'antd';
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -205,10 +206,10 @@ export default function Ranking() {
                     </Button>)
                     : (
                       <div>
-                        <div className={`text-sm font-bold mb-1 ${item.rank === 1 || item.rank === 2 || item.rank === 3 ? 'text-gray-800' : 'text-gray-50'}`}>
+                        <div className={classNames('text-sm font-bold mb-1', item.rank === 1 || item.rank === 2 || item.rank === 3 ? 'text-gray-900' : 'text-gray-50')}>
                           {(item as DoublePlayer).teamName}
                         </div>
-                        <div className="text-xs text-gray-300">
+                        <div className={classNames('text-xs', item.rank === 1 || item.rank === 2 || item.rank === 3 ? 'text-gray-800' : 'text-gray-50')}>
                           <div>{(item as DoublePlayer).player_name_1}</div>
                           <div>{(item as DoublePlayer).player_name_2}</div>
                         </div>
