@@ -1,6 +1,7 @@
 import { Select } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
+import { EventTypeEnum } from '@/enum/Event';
 import { useEventStore } from '@/store/event';
 
 interface IProps {
@@ -14,7 +15,9 @@ export default function EventSelect({ id, disable, setId, className }: IProps) {
   const { eventList } = useEventStore(state => state);
   const list = eventList
     // TODO 篩選日期這個應該拔到，但後端要篩選掉非過期的賽事
-    .filter(item => item.isSingleMatch && dayjs(item.date) > dayjs('2024-01-01'))
+    .filter(item => (
+      item.type === EventTypeEnum.Score
+    ) && dayjs(item.date) > dayjs('2024-01-01'))
     .map(item => ({
       value: item.id,
       label: item.name,

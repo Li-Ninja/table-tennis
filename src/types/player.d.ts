@@ -1,5 +1,5 @@
 import {
-  RacketTypeEnum, RubberTypeEnum,
+  DoublePlayerStatusEnum, RacketTypeEnum, RubberTypeEnum,
 } from '@/enum/player';
 
 export interface Player {
@@ -18,6 +18,23 @@ export interface Player {
   latestResultDateTime?: string;
   updateDateTime?: string;
   isOnLeave: boolean;
+}
+
+export interface DoublePlayer {
+  id: number;
+  teamName: string;
+  player_id_1: number;
+  player_id_2: number;
+  player_name_1: string;
+  player_name_2: string;
+  score: number;
+  rank: number;
+  resultCount: number;
+  resultCountByYearly: number;
+  winningCount: number;
+  updateDateTime: Date;
+  latestResultDateTime: Date;
+  status: DoublePlayerStatusEnum;
 }
 
 export interface PlayerStats {

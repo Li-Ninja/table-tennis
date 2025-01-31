@@ -1,5 +1,11 @@
 export default [
   {
+    version: 'v1.10',
+    list: [
+      '增加雙打選手的顯示',
+    ],
+  },
+  {
     version: 'v1.9',
     list: [
       '優化選單列效果',

@@ -1,11 +1,27 @@
 import type {
+  DoublePlayer,
   Player,
   PlayerComparisonData,
-  PlayerStats,
 } from '@/types/player';
 
 export const getPlayer = async (): Promise<{ data: Player[] }> => {
   const url = 'player';
+  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then(res => res.json());
+
+  if (data.error) {
+    throw data.error;
+  }
+
+  return { data };
+};
+
+export const getDoublePlayer = async (): Promise<{ data: DoublePlayer[] }> => {
+  const url = 'player/doublePlayer';
   const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
     method: 'GET',
     headers: {

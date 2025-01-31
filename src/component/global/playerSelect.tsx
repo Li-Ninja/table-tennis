@@ -8,13 +8,13 @@ interface IProps {
   setId: (id: number) => void;
   className?: string;
   placeholder?: string;
-  excludeId?: number;
+  excludeIdList?: number[];
 }
 
-export default function PlayerSelect({ id, disable, setId, className, excludeId, placeholder = '選手名稱' }: IProps) {
+export default function PlayerSelect({ id, disable, setId, className, excludeIdList = [], placeholder = '選手名稱' }: IProps) {
   const { playerList } = usePlayerStore(state => state);
   const list = playerList
-    .filter(item => item.id !== excludeId)
+    .filter(item => !excludeIdList.includes(item.id))
     .map(item => ({
       value: item.id,
       label: item.name,

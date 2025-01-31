@@ -23,7 +23,7 @@ const config: Config = {
       addBase({
         ':root': {
           '--primary-color': colors.primary.DEFAULT,
-          '--primary-color-light': colors.primary.LIGHT,
+          '--primary-color-light': colors.primary.light,
           '--secondary-color': colors.secondary.DEFAULT,
         },
       });

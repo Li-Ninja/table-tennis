@@ -15,6 +15,8 @@ import React, {
 import { getResultRanking } from '@/api/result';
 import EventSelect from '@/component/global/eventSelect';
 import PlayerSelect from '@/component/global/playerSelect';
+import SingleDoubleSelect from '@/component/global/singleDoubleSelect';
+import { SubEventTypeEnum } from '@/enum/Event';
 import { useEventStore } from '@/store/event';
 import { ResultRanking } from '@/types/result';
 
@@ -26,9 +28,13 @@ interface DataType {
   index: number;
   date: string;
   time: string;
-  player_nameA1: string;
+  player_name_a_1: string;
+  player_name_a_2?: string;
   score: string;
-  player_nameB1: string;
+  player_name_b_1: string;
+  player_name_b_2?: string;
+  doublePlayer_name_a?: string | null;
+  doublePlayer_name_b?: string | null;
   resultItemList: string[];
 }
 
@@ -87,19 +93,31 @@ const ScoreDisplay = ({ scores }: { scores: string }) => {
   );
 };
 
-const MatchDisplay = ({ playerA, playerB, score }: {
-  playerA: string;
-  playerB: string;
+const MatchDisplay = ({
+  playerNameA1, playerNameA2, playerNameB1, playerNameB2,
+  score, subEventType, doublePlayerNameA, doublePlayerNameB,
+}: {
+  playerNameA1: string;
+  playerNameA2?: string;
+  playerNameB1: string;
+  playerNameB2?: string;
   score: string;
+  subEventType: SubEventTypeEnum;
+  doublePlayerNameA?: string | null;
+  doublePlayerNameB?: string | null;
 }) => {
   const [scoreA, scoreB] = score.split(':').map(s => s.trim());
   const isAWinner = Number(scoreA) > Number(scoreB);
 
   return (
     <div className="inline-flex items-center">
-      <div className="w-16 text-right">
+      <div className="w-24 text-right">
         <span className={`${isAWinner ? 'text-secondary font-bold' : 'text-gray-400'}`}>
-          {playerA}
+          {doublePlayerNameA && (<span className="text-xs block text-secondary-light mb-1">{doublePlayerNameA}</span>)}
+          {playerNameA1}
+          {subEventType === SubEventTypeEnum.Double && playerNameA2 && (
+            <span className="block">{playerNameA2}</span>
+          )}
         </span>
       </div>
 
@@ -113,9 +131,13 @@ const MatchDisplay = ({ playerA, playerB, score }: {
         </span>
       </div>
 
-      <div className="w-16 text-left">
+      <div className="w-24 text-left">
         <span className={`${!isAWinner ? 'text-secondary font-bold' : 'text-gray-400'}`}>
-          {playerB}
+          {doublePlayerNameB && (<span className="text-xs block text-secondary-light mb-1">{doublePlayerNameB}</span>)}
+          {playerNameB1}
+          {subEventType === SubEventTypeEnum.Double && playerNameB2 && (
+            <span className="block">{playerNameB2}</span>
+          )}
         </span>
       </div>
     </div>
@@ -133,9 +155,12 @@ const DateTimeDisplay = ({ date, time }: { date: string; time: string }) => (
 export default function RankingHistory() {
   const [dataSource, setDataSource] = useState<DataType[]>([]);
   const { eventList } = useEventStore(state => state);
-  const [playerA, setPlayerA] = useState<number | undefined>(undefined);
-  const [playerB, setPlayerB] = useState<number | undefined>(undefined);
+  const [playerA1, setPlayerA1] = useState<number | undefined>(undefined);
+  const [playerA2, setPlayerA2] = useState<number | undefined>(undefined);
+  const [playerB1, setPlayerB1] = useState<number | undefined>(undefined);
+  const [playerB2, setPlayerB2] = useState<number | undefined>(undefined);
   const [eventId, setEventId] = useState<number | undefined>(undefined);
+  const [subEventType, setEventType] = useState<SubEventTypeEnum>(SubEventTypeEnum.Single);
   const [startDate, setStartDate] = useState(dayjs().subtract(6, 'day').format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [isLoading, setIsLoading] = useState(false);
@@ -167,9 +192,14 @@ export default function RankingHistory() {
       align: 'center',
       render: (_, record: DataType) => (
         <MatchDisplay
-          playerA={record.player_nameA1}
-          playerB={record.player_nameB1}
+          playerNameA1={record.player_name_a_1}
+          playerNameA2={record.player_name_a_2}
+          playerNameB1={record.player_name_b_1}
+          playerNameB2={record.player_name_b_2}
+          doublePlayerNameA={record.doublePlayer_name_a}
+          doublePlayerNameB={record.doublePlayer_name_b}
           score={record.score}
+          subEventType={subEventType}
         />
       ),
     },
@@ -189,9 +219,13 @@ export default function RankingHistory() {
         index: index + 1,
         date: item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD') : '',
         time: item.resultDateTime ? dayjs(item.resultDateTime).tz('Asia/Taipei').format('HH:mm') : '',
-        player_nameA1: item.player_nameA1,
+        player_name_a_1: item.player_name_a_1,
+        player_name_a_2: item.player_name_a_2,
         score: `${item.scoreA} : ${item.scoreB}`,
-        player_nameB1: item.player_nameB1,
+        player_name_b_1: item.player_name_b_1,
+        player_name_b_2: item.player_name_b_2,
+        doublePlayer_name_a: item.doublePlayer_name_a,
+        doublePlayer_name_b: item.doublePlayer_name_b,
         resultItemList: item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `),
         scores: item.resultItemList.map(resultItem => `${resultItem.scoreA}:${resultItem.scoreB} `).join(' '),
       })),
@@ -203,24 +237,37 @@ export default function RankingHistory() {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const searchId = queryParams.get('id');
+    const querySubEventType = queryParams.get('subEventType');
 
     if (searchId) {
       if (Number(searchId)) {
-        setPlayerA(Number(searchId));
+        setPlayerA1(Number(searchId));
       }
 
       // TODO: 這邊的顯示沒有跟著改動
       setStartDate('2024-01-01');
     }
+
+    if (querySubEventType) {
+      setEventType(Number(querySubEventType));
+    }
   }, []);
 
   const search = useCallback(() => {
     setIsLoading(true);
-    getResultRanking({ startDate, endDate, playerA, playerB }).then(({ data }) => {
+    getResultRanking({
+      startDate,
+      endDate,
+      playerA1,
+      playerA2: subEventType === SubEventTypeEnum.Double ? playerA2 : undefined,
+      playerB1,
+      playerB2: subEventType === SubEventTypeEnum.Double ? playerB2 : undefined,
+      subEventType,
+    }).then(({ data }) => {
       solveData(data);
       setIsLoading(false);
     });
-  }, [startDate, endDate, playerA, playerB]);
+  }, [startDate, endDate, playerA1, playerA2, playerB1, playerB2, subEventType]);
 
   // TODO: refactor
   useEffect(() => {
@@ -229,7 +276,7 @@ export default function RankingHistory() {
 
     if (searchId) {
       setIsLoading(true);
-      getResultRanking({ startDate: '2024-01-01', endDate, playerA: Number(searchId), playerB }).then(({ data }) => {
+      getResultRanking({ startDate: '2024-01-01', endDate, playerA1: Number(searchId), playerB1, subEventType }).then(({ data }) => {
         solveData(data);
         setIsLoading(false);
       });
@@ -239,10 +286,24 @@ export default function RankingHistory() {
   }, []);
 
   useEffect(() => {
-    if (!playerA) {
-      setPlayerB(undefined);
+    switch (subEventType) {
+      case SubEventTypeEnum.Single:
+        if (!playerA1) {
+          setPlayerB1(undefined);
+        }
+
+        break;
+      case SubEventTypeEnum.Double:
+        if (!playerA1 && !playerA2) {
+          setPlayerB1(undefined);
+          setPlayerB2(undefined);
+        }
+
+        break;
+      default:
+        break;
     }
-  }, [playerA]);
+  }, [playerA1, playerA2, subEventType]);
 
   // #region 處理切換 event 或是 date 時候要處理的事情
   useEffect(() => {
@@ -259,6 +320,14 @@ export default function RankingHistory() {
     setStartDate(dayjs(eventDate).format('YYYY-MM-DD'));
     setEndDate(dayjs(eventDate).endOf('month').format('YYYY-MM-DD'));
   }, [eventId]);
+
+  // 處理單雙打切換
+  useEffect(() => {
+    if (subEventType === SubEventTypeEnum.Single) {
+      setPlayerA2(undefined);
+      setPlayerB2(undefined);
+    }
+  }, [subEventType]);
 
   useEffect(() => {
     const eventDate = eventList.find(item => item.id === eventId)?.date;
@@ -281,6 +350,11 @@ export default function RankingHistory() {
           className="flex-1"
           id={eventId}
           setId={setEventId}
+        />
+        <SingleDoubleSelect
+          className='flex-1'
+          type={subEventType}
+          setType={setEventType}
         />
         <DatePicker
           className="flex-1"
@@ -307,28 +381,74 @@ export default function RankingHistory() {
           }}
         />
       </div>
-      <div className="flex flex-col md:flex-row mb-6  gap-4 md:gap-y-0 justify-between">
-        <PlayerSelect
-          className="flex-1"
-          id={playerA}
-          setId={setPlayerA}
-          placeholder='選手 A'
-        />
-        <PlayerSelect
-          className="flex-1"
-          id={playerB}
-          setId={setPlayerB}
-          disable={!playerA}
-          placeholder='選手 B'
-        />
+      <div className="flex flex-col md:flex-row mb-6 gap-4 md:gap-y-0 justify-between">
+        <div className={`
+          flex-1 flex gap-4
+          ${subEventType === SubEventTypeEnum.Double ? 'bg-gray-800/30 p-2 rounded-lg border border-gray-700/30' : ''}
+        `}>
+          <PlayerSelect
+            className="flex-1"
+            id={playerA1}
+            setId={setPlayerA1}
+            placeholder={`選手 A${subEventType === SubEventTypeEnum.Double ? '1' : ''}`}
+            excludeIdList={
+              [playerA2, playerB1, playerB2].filter((id): id is number => id !== undefined)
+            }
+          />
+          {subEventType === SubEventTypeEnum.Double && (
+            <PlayerSelect
+              className="flex-1"
+              id={playerA2}
+              setId={setPlayerA2}
+              placeholder='選手 A2'
+              excludeIdList={
+                [playerA1, playerB1, playerB2].filter((id): id is number => id !== undefined)
+              }
+            />
+          )}
+        </div>
+
+        <div className={`
+          flex-1 flex gap-4
+          ${subEventType === SubEventTypeEnum.Double ? 'bg-gray-800/30 p-2 rounded-lg border border-gray-700/30' : ''}
+        `}>
+          <PlayerSelect
+            className="flex-1"
+            id={playerB1}
+            setId={setPlayerB1}
+            disable={
+              subEventType === SubEventTypeEnum.Double ? (!playerA1 && !playerA2) : !playerA1
+            }
+            placeholder={`選手 B${subEventType === SubEventTypeEnum.Double ? '1' : ''}`}
+            excludeIdList={
+              [playerA1, playerA2, playerB2].filter((id): id is number => id !== undefined)
+            }
+          />
+          {subEventType === SubEventTypeEnum.Double && (
+            <PlayerSelect
+              className="flex-1"
+              id={playerB2}
+              setId={setPlayerB2}
+              disable={
+                subEventType === SubEventTypeEnum.Double ? (!playerA1 && !playerA2) : !playerA1
+              }
+              placeholder='選手 B2'
+              excludeIdList={
+                [playerA1, playerA2, playerB1].filter((id): id is number => id !== undefined)
+              }
+            />
+          )}
+        </div>
+
         <Button
           loading={isLoading}
           type="primary"
           size="large"
           icon={<SearchOutlined />}
           onClick={search}
-          // TODO: type 用 primary 效果沒有出來，可能是被 tailwind 影響，所以這裡還會要額外加上 bg-primary
-          className="bg-primary flex-1"
+          className={`bg-primary flex-1 md:max-w-[120px]
+          ${subEventType === SubEventTypeEnum.Double && 'md:mt-[9px]'}`
+          }
         >
           搜尋
         </Button>

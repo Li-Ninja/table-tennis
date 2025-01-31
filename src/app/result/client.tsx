@@ -35,12 +35,12 @@ function getRounds(list: Result[], apiData2: ResultItem[]) {
       teams: [
         {
           name: (() => {
-            if (item.player_nameA1 && item.player_nameA2) {
-              return `${item.player_nameA1} / ${item.player_nameA2}`;
+            if (item.player_name_a_1 && item.player_name_a_2) {
+              return `${item.player_name_a_1} / ${item.player_name_a_2}`;
             }
 
-            if (item.player_nameA1 !== null || item.player_nameA2 !== null) {
-              return item.player_nameA1 ? item.player_nameA1 : item.player_nameA2;
+            if (item.player_name_a_1 !== null || item.player_name_a_2 !== null) {
+              return item.player_name_a_1 ? item.player_name_a_1 : item.player_name_a_2;
             }
 
             return '-';
@@ -50,12 +50,12 @@ function getRounds(list: Result[], apiData2: ResultItem[]) {
         },
         {
           name: (() => {
-            if (item.player_nameB1 && item.player_nameB2) {
-              return `${item.player_nameB1} / ${item.player_nameB2}`;
+            if (item.player_name_b_1 && item.player_name_b_2) {
+              return `${item.player_name_b_1} / ${item.player_name_b_2}`;
             }
 
-            if (item.player_nameB1 !== null || item.player_nameB2 !== null) {
-              return item.player_nameB1 ? item.player_nameB1 : item.player_nameB2;
+            if (item.player_name_b_1 !== null || item.player_name_b_2 !== null) {
+              return item.player_name_b_1 ? item.player_name_b_1 : item.player_name_b_2;
             }
 
             return '-';
@@ -83,7 +83,7 @@ function ResultComponent({ apiData, id, apiData2 }: { apiData: Result[]; id: num
 }
 
 export default function Result() {
-  const [activeKey, setActiveKey] = useState('tab1');
+  const [activeKey, setActiveKey] = useState('single');
   const [apiData, setApiData] = useState<Result[]>([]);
   const [apiResultItem, setApiResultItem] = useState<ResultItem[]>([]);
 
@@ -98,12 +98,12 @@ export default function Result() {
 
   const items: TabsProps['items'] = [
     {
-      key: 'tab1',
+      key: 'single',
       label: '單打',
       children: <ResultComponent apiData={apiData} id={1} apiData2={apiResultItem} />,
     },
     {
-      key: 'tab2',
+      key: 'double',
       label: '雙打',
       children: <ResultComponent apiData={apiData} id={2} apiData2={apiResultItem} />,
     },

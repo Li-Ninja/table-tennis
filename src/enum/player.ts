@@ -12,3 +12,8 @@ export enum RubberTypeEnum {
   LongPimple = 4,
   Anti = 5
 }
+
+export enum DoublePlayerStatusEnum {
+  Disabled = 0,
+  Enable = 1
+}
