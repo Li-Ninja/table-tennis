@@ -237,6 +237,8 @@ export default function RankingHistory() {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const searchId = queryParams.get('id');
+    const searchId1 = queryParams.get('id1');
+    const searchId2 = queryParams.get('id2');
     const querySubEventType = queryParams.get('subEventType');
 
     if (searchId) {
@@ -246,6 +248,12 @@ export default function RankingHistory() {
 
       // TODO: 這邊的顯示沒有跟著改動
       setStartDate('2024-01-01');
+    }
+
+    if (searchId1 && searchId2) {
+      setEventType(SubEventTypeEnum.Double);
+      setPlayerA1(Number(searchId1));
+      setPlayerA2(Number(searchId2));
     }
 
     if (querySubEventType) {
@@ -273,10 +281,18 @@ export default function RankingHistory() {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const searchId = queryParams.get('id');
+    const searchId1 = queryParams.get('id1');
+    const searchId2 = queryParams.get('id2');
 
     if (searchId) {
       setIsLoading(true);
       getResultRanking({ startDate: '2024-01-01', endDate, playerA1: Number(searchId), playerB1, subEventType }).then(({ data }) => {
+        solveData(data);
+        setIsLoading(false);
+      });
+    } else if (searchId1 && searchId2) {
+      setIsLoading(true);
+      getResultRanking({ startDate: '2024-01-01', endDate, playerA1: Number(searchId1), playerA2: Number(searchId2), playerB1, subEventType: SubEventTypeEnum.Double }).then(({ data }) => {
         solveData(data);
         setIsLoading(false);
       });
@@ -321,14 +337,6 @@ export default function RankingHistory() {
     setEndDate(dayjs(eventDate).endOf('month').format('YYYY-MM-DD'));
   }, [eventId]);
 
-  // 處理單雙打切換
-  useEffect(() => {
-    if (subEventType === SubEventTypeEnum.Single) {
-      setPlayerA2(undefined);
-      setPlayerB2(undefined);
-    }
-  }, [subEventType]);
-
   useEffect(() => {
     const eventDate = eventList.find(item => item.id === eventId)?.date;
     const eventStartDate = dayjs(eventDate).format('YYYY-MM-DD');
@@ -343,6 +351,11 @@ export default function RankingHistory() {
   }, [startDate, endDate]);
   // #endregion
 
+  function clearDoublePlayer() {
+    setPlayerA2(undefined);
+    setPlayerB2(undefined);
+  }
+
   return (
     <div className="bg-gray-900 flex flex-col p-2 md:p-5">
       <div className="flex flex-col md:flex-row mb-2 gap-4 md:gap-y-0 justify-between">
@@ -355,6 +368,11 @@ export default function RankingHistory() {
           className='flex-1'
           type={subEventType}
           setType={setEventType}
+          onChange={newType => {
+            if (newType === SubEventTypeEnum.Single) {
+              clearDoublePlayer();
+            }
+          }}
         />
         <DatePicker
           className="flex-1"

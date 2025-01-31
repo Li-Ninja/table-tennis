@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, {
   useEffect, useState,
 } from 'react';
@@ -34,6 +34,7 @@ export default function Ranking() {
   const [newPlayerList, setNewPlayerList] = useState<Player[]>([]);
   const [newDoublePlayerList, setNewDoublePlayerList] = useState<DoublePlayer[]>([]);
   const { playerList, doublePlayerList } = usePlayerStore(state => state);
+  const router = useRouter();
 
   useEffect(() => {
     const twoMonthsAgo = dayjs().subtract(2, 'month');
@@ -62,15 +63,6 @@ export default function Ranking() {
     setNewPlayerList(filteredPlayerData);
 
     const filteredDoublePlayerData = doublePlayerList
-      .filter(player => {
-        if (player.latestResultDateTime === null) {
-          return false;
-        }
-
-        const playerUpdateDate = dayjs(player.latestResultDateTime);
-
-        return playerUpdateDate.isAfter(twoMonthsAgo);
-      })
       .sort((a, b) => {
         if (b.score !== a.score) {
           return b.score - a.score;
@@ -177,12 +169,13 @@ export default function Ranking() {
                     : item.rank === 2 ? styles.secondPlace
                       : item.rank === 3 ? styles.thirdPlace : {}
                   }>
-                  <Button type="primary" autoInsertSpace={false}>
-                    <Link href={`/rankingHistory?id=${item.id}&subEventType=${type === 'single' ? 1 : 2}`}>
-                      {item.rank}
-                    </Link>
+                  <Button
+                    type="primary"
+                    autoInsertSpace={false}
+                    onClick={() => router.push(`/rankingHistory?subEventType=${type === 'single' ? 1 : 2}${type === 'single' ? `&id=${(item as Player).id}` : `&id1=${(item as DoublePlayer).player_id_1}&id2=${(item as DoublePlayer).player_id_2}`}`)}
+                  >
+                    {item.rank}
                   </Button>
-
                 </td>
                 <td
                   className="whitespace-nowrap px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-700 border-b border-neutral-500"
@@ -193,16 +186,19 @@ export default function Ranking() {
                   }
                 >
                   {type === 'single'
-                    ? (<Button type="primary" autoInsertSpace={false}>
-                      <Link href={`/player?id=${item.id}`}>
-                        {item.rank === 1 ? '🏆 '
-                          : item.rank === 2 ? '🥈 '
-                            : item.rank === 3 ? '🥉 '
-                              : item.rank === 4 ? '🏅 '
-                                : item.rank === 5 ? '🎖 ' : ''
-                    }
-                        {(item as Player).name}
-                      </Link>
+                    ? (<Button
+                        type="primary"
+                        autoInsertSpace={false}
+                        className="w-auto"
+                        onClick={() => router.push(`/player?id=${item.id}`)}
+                    >
+                      {item.rank === 1 ? '🏆 '
+                        : item.rank === 2 ? '🥈 '
+                          : item.rank === 3 ? '🥉 '
+                            : item.rank === 4 ? '🏅 '
+                              : item.rank === 5 ? '🎖 ' : ''
+                      }
+                      {(item as Player).name}
                     </Button>)
                     : (
                       <div>
@@ -222,14 +218,14 @@ export default function Ranking() {
                 <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
                 <td className="whitespace-nowrap px-6 py-4">{winningRate(item)}</td>
                 <td className="whitespace-nowrap px-6 py-4">
-                  {(item as Player).isOnLeave ? '休賽中' : item.latestResultDateTime ? dayjs(item.latestResultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : ''}
+                  {(item as Player).isOnLeave ? '休賽中' : item.latestResultDateTime ? dayjs(item.latestResultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : '-'}
                   {!(item as Player).isOnLeave && isMoreThanOneMonthOld(item.latestResultDateTime)
                     ? <Tooltip className="ml-1" placement="bottom" title={daysFromTodayTips(item.latestResultDateTime)}>
                       <ExclamationCircleOutlined style={{ color: 'gray' }} />
                     </Tooltip>
                     : ''}
                 </td>
-                <td className="whitespace-nowrap px-6 py-4">{item.updateDateTime ? dayjs(item.updateDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : ''}</td>
+                <td className="whitespace-nowrap px-6 py-4">{item.updateDateTime ? dayjs(item.updateDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : '-'}</td>
               </tr>
             ))}
 

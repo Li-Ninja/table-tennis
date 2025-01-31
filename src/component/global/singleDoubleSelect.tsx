@@ -7,9 +7,12 @@ interface IProps {
   type: SubEventTypeEnum;
   disable?: boolean;
   setType: (type: SubEventTypeEnum) => void;
+  onChange?: (type: SubEventTypeEnum) => void;
 }
 
-export default function SingleDoubleSelect({ type, disable, setType, className }: IProps) {
+export default function SingleDoubleSelect({
+  type, disable, setType, className, onChange,
+}: IProps) {
   const list = [
     {
       value: SubEventTypeEnum.Single,
@@ -28,7 +31,10 @@ export default function SingleDoubleSelect({ type, disable, setType, className }
       disabled={disable}
       showSearch
       placeholder="單雙打"
-      onChange={(i: SubEventTypeEnum) => setType(i)}
+      onChange={(value:SubEventTypeEnum) => {
+        setType(value);
+        onChange?.(value);
+      }}
       size="large"
       optionFilterProp="children"
       filterOption={(input, option) => (option?.label ?? '').includes(input)}
