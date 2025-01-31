@@ -65,13 +65,13 @@ export default function Page() {
           className="flex-1"
           id={playerAId}
           setId={handlePlayerAChange}
-          excludeId={playerBId}
+          excludeIdList={playerBId ? [playerBId] : []}
         />
         <PlayerSelect
           className="flex-1"
           id={playerBId}
           setId={handlePlayerBChange}
-          excludeId={playerAId}
+          excludeIdList={playerAId ? [playerAId] : []}
         />
       </div>
       {playerA && playerB ? (
