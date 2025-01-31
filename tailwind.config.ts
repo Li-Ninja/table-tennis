@@ -16,6 +16,9 @@ const config: Config = {
       inset: {
         '70px': '70px',
       },
+      fontSize: {
+        xxs: '.625rem',
+      },
     },
   },
   plugins: [

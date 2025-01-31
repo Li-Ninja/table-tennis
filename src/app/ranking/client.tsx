@@ -124,29 +124,29 @@ export default function Ranking() {
           <thead
             className="border-b font-medium border-neutral-500 bg-neutral-600">
             <tr>
-              <th scope="col" className="px-3 py-4 sticky top-0 left-0 z-20 bg-neutral-600">
+              <th scope="col" className="px-3 py-4 sticky top-0 left-0 z-20 bg-neutral-600 text-xs">
                 #
                 <Tooltip className="ml-1" placement="bottom" title={rankTips}>
                   <QuestionCircleOutlined />
                 </Tooltip>
               </th>
-              <th scope="col" className="px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-600">
+              <th scope="col" className="text-center px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-600 text-xs">
                 選手
                 <Tooltip className="ml-1" placement="bottom" title={playerTips}>
                   <QuestionCircleOutlined />
                 </Tooltip>
               </th>
-              <th scope="col" className="px-6 py-4">積分</th>
-              <th scope="col" className="px-6 py-4">{getResultCountByYearlyTitle()}</th>
-              <th scope="col" className="px-6 py-4">總累計場次</th>
-              <th scope="col" className="px-6 py-4">勝率</th>
-              <th scope="col" className="px-6 py-4">
+              <th scope="col" className="text-center py-4 text-xs">積分</th>
+              <th scope="col" className="text-center py-4 text-xxs">{getResultCountByYearlyTitle()}</th>
+              <th scope="col" className="text-center py-4 text-xxs">總累計場次</th>
+              <th scope="col" className="text-center py-4 text-xs">勝率</th>
+              <th scope="col" className="text-center py-4 text-xs">
                 最近比賽時間
                 <Tooltip className="ml-1" placement="bottom" title={updateDateTimeTips}>
                   <QuestionCircleOutlined />
                 </Tooltip>
               </th>
-              <th scope="col" className="px-6 py-4">
+              <th scope="col" className="text-center py-4 text-xs">
                 積分更新時間
               </th>
             </tr>
@@ -214,10 +214,10 @@ export default function Ranking() {
                     }
                 </td>
                 <td className="whitespace-nowrap px-6 py-4">{item.score}</td>
-                <td className="whitespace-nowrap px-6 py-4">{item.resultCountByYearly} 場</td>
-                <td className="whitespace-nowrap px-6 py-4">{item.resultCount} 場</td>
+                <td className="whitespace-nowrap px-6 py-4 text-center">{item.resultCountByYearly} 場</td>
+                <td className="whitespace-nowrap px-6 py-4 text-center">{item.resultCount} 場</td>
                 <td className="whitespace-nowrap px-6 py-4">{winningRate(item)}</td>
-                <td className="whitespace-nowrap px-6 py-4">
+                <td className={classNames('whitespace-nowrap px-6 py-4', !item.latestResultDateTime ? 'min-w-[160px]' : '')}>
                   {(item as Player).isOnLeave ? '休賽中' : item.latestResultDateTime ? dayjs(item.latestResultDateTime).tz('Asia/Taipei').format('YYYY-MM-DD HH:mm') : '-'}
                   {!(item as Player).isOnLeave && isMoreThanOneMonthOld(item.latestResultDateTime)
                     ? <Tooltip className="ml-1" placement="bottom" title={daysFromTodayTips(item.latestResultDateTime)}>
