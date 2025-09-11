@@ -199,6 +199,152 @@ export default function Rule() {
 
                 <div className="p-4 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
                   <h4 className="text-md font-bold flex items-center gap-2 mb-2">
+                    🎯 低分者表現獎勵機制
+                  </h4>
+                  <p className="text-md text-gray-300 mb-4">
+                    原本的扣分計算完成後，若低分者戰敗但表現良好，可獲得額外積分獎勵：
+                  </p>
+                  {/* 桌面版表格 */}
+                  <div className="hidden md:grid grid-cols-6 gap-4 text-center text-sm">
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">積分差距範圍</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>124 ~ 154</p>
+                        <p>155 ~ 185</p>
+                        <p>186 ~ 216</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>217 ~ 247</p>
+                        <p>248 以上</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">6 分</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>-</p>
+                        <p>-</p>
+                        <p>-</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>+11</p>
+                        <p>+13</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">7 分</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>+6</p>
+                        <p>+8</p>
+                        <p>+10</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>+12</p>
+                        <p>+14</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">8 分</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>+7</p>
+                        <p>+9</p>
+                        <p>+11</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>+13</p>
+                        <p>+15</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">9 分</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>+8</p>
+                        <p>+10</p>
+                        <p>+12</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>+14</p>
+                        <p>+16</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p className="font-bold text-white">10 分</p>
+                      <div className="space-y-1 text-gray-300">
+                        <p>+10</p>
+                        <p>+12</p>
+                        <p>+14</p>
+                      </div>
+                      <hr className="border-gray-600" />
+                      <div className="space-y-1 text-gray-300">
+                        <p>+20</p>
+                        <p>+22</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 手機版表格 */}
+                  <div className="md:hidden space-y-4">
+                    <div className="grid grid-cols-1 gap-4 text-sm">
+                      <div className="space-y-2">
+                        <p className="font-bold text-white">積分差距 124-154</p>
+                        <div className="space-y-1 text-gray-300">
+                          <p>平均每局得 7 分 → +6</p>
+                          <p>平均每局得 8 分 → +7</p>
+                          <p>平均每局得 9 分 → +8</p>
+                          <p>平均每局得 10 分 → +10</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="font-bold text-white">積分差距 155-185</p>
+                        <div className="space-y-1 text-gray-300">
+                          <p>平均每局得 7 分 → +8</p>
+                          <p>平均每局得 8 分 → +9</p>
+                          <p>平均每局得 9 分 → +10</p>
+                          <p>平均每局得 10 分 → +12</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="font-bold text-white">積分差距 186-216</p>
+                        <div className="space-y-1 text-gray-300">
+                          <p>平均每局得 7 分 → +10</p>
+                          <p>平均每局得 8 分 → +11</p>
+                          <p>平均每局得 9 分 → +12</p>
+                          <p>平均每局得 10 分 → +14</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="font-bold text-white">積分差距 217-247</p>
+                        <div className="space-y-1 text-gray-300">
+                          <p>平均每局得 6 分 → +11</p>
+                          <p>平均每局得 7 分 → +12</p>
+                          <p>平均每局得 8 分 → +13</p>
+                          <p>平均每局得 9 分 → +14</p>
+                          <p>平均每局得 10 分 → +20</p>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="font-bold text-white">積分差距 248 以上</p>
+                        <div className="space-y-1 text-gray-300">
+                          <p>平均每局得 6 分 → +13</p>
+                          <p>平均每局得 7 分 → +14</p>
+                          <p>平均每局得 8 分 → +15</p>
+                          <p>平均每局得 9 分 → +16</p>
+                          <p>平均每局得 10 分 → +22</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-400 mt-4">
+                    <strong>計算方式：</strong>積分低者戰敗後，全部局數的分數加起來除以總共打的局數
+                  </p>
+                </div>
+
+                <div className="p-4 bg-gray-800 rounded-lg shadow-lg border border-gray-700">
+                  <h4 className="text-md font-bold flex items-center gap-2 mb-2">
                     🧮 積分計算範例
                   </h4>
                   <ul className="list-disc pl-6 text-md text-gray-300 leading-relaxed space-y-4">
@@ -216,6 +362,7 @@ export default function Rule() {
                         <li>規則範圍：186 ~ 216。</li>
                         <li>高分選手獲勝 +3，低分選手 -3。</li>
                         <li>低分選手獲勝 +51，高分選手 -51。</li>
+                        <li>若低分者戰敗但平均每局得 9 分，額外獲得 +12 積分。</li>
                       </ul>
                     </li>
                   </ul>
