@@ -151,7 +151,7 @@ export default function Rule() {
                       <div className="space-y-1 text-gray-300">
                         <p>186 ~ 216</p>
                         <p>217 ~ 247</p>
-                        <p>247 以上</p>
+                        <p>248 以上</p>
                       </div>
                     </div>
                     <div className="space-y-2">
