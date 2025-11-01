@@ -37,7 +37,7 @@ export default function Ranking() {
   const router = useRouter();
 
   useEffect(() => {
-    // const twoMonthsAgo = dayjs().subtract(2, 'month');
+    const twoMonthsAgo = dayjs().subtract(2, 'month');
 
     const filteredPlayerData = playerList
       .filter(player => {
@@ -47,8 +47,7 @@ export default function Ranking() {
 
         const playerUpdateDate = dayjs(player.latestResultDateTime);
 
-        // return player.isOnLeave || playerUpdateDate.isAfter(twoMonthsAgo);
-        return player.isOnLeave;
+        return player.isOnLeave || playerUpdateDate.isAfter(twoMonthsAgo);
       })
       .sort((a, b) => {
         if (b.score !== a.score) {
@@ -86,7 +85,7 @@ export default function Ranking() {
     return `${Math.round((item.winningCount / item.resultCount) * 100)}%`;
   }
 
-  // const updateDateTimeTips = <span>超過 2 個月沒有新的比賽記錄時，會先暫時隱藏該選手的排名</span>;
+  const updateDateTimeTips = <span>超過 2 個月沒有新的比賽記錄時，會先暫時隱藏該選手的排名</span>;
 
   function isMoreThanOneMonthOld(date: string | Date | undefined) {
     if (!date) {
@@ -143,9 +142,9 @@ export default function Ranking() {
               <th scope="col" className="text-center py-4 text-xs">勝率</th>
               <th scope="col" className="text-center py-4 text-xs">
                 最近比賽時間
-                {/* <Tooltip className="ml-1" placement="bottom" title={updateDateTimeTips}>
+                <Tooltip className="ml-1" placement="bottom" title={updateDateTimeTips}>
                   <QuestionCircleOutlined />
-                </Tooltip> */}
+                </Tooltip>
               </th>
               <th scope="col" className="text-center py-4 text-xs">
                 積分更新時間
