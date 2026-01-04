@@ -1,3 +1,4 @@
+import { getApiDomain } from '@/config/api';
 import { getUtcDateTime } from '@/constant/common';
 import { EventTypeEnum } from '@/enum/Event';
 import {
@@ -6,7 +7,7 @@ import {
 
 export const getResult = async (): Promise<{ data: Result[] }> => {
   const url = 'result';
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ Promise<{ data: ResultRanking[] }> => {
     query += `&player_Id_B_2=${getData.playerB2}`;
   }
 
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?${query}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}?${query}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +66,7 @@ Promise<{ data: ResultRanking[] }> => {
 
 export const getResultItem = async (): Promise<{ data: ResultItem[] }> => {
   const url = 'resultItem';
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

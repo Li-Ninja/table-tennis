@@ -1,3 +1,4 @@
+import { getApiDomain } from '@/config/api';
 import type {
   DoublePlayer,
   Player,
@@ -6,7 +7,7 @@ import type {
 
 export const getPlayer = async (): Promise<{ data: Player[] }> => {
   const url = 'player';
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -22,7 +23,7 @@ export const getPlayer = async (): Promise<{ data: Player[] }> => {
 
 export const getDoublePlayer = async (): Promise<{ data: DoublePlayer[] }> => {
   const url = 'player/doublePlayer';
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -61,7 +62,7 @@ export const getPlayerComparison = async (
 ): Promise<{ data: Record<'playerA' | 'playerB', PlayerComparisonData> }> => {
   const url = 'player/comparison';
   const query = `idA=${playerAId}&idB=${playerBId}`;
-  const data = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/${url}?${query}`, {
+  const data = await fetch(`${getApiDomain()}/api/${url}?${query}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
