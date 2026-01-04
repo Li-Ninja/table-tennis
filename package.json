@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "release": "npm version patch",
     "lint": "eslint --ext .js,.ts,tsx ./",
     "lint:fix": "eslint --fix . --ext .js,.ts,tsx ./"
   },
