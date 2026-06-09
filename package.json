@@ -12,6 +12,7 @@
     "lint:fix": "eslint --fix . --ext .js,.ts,tsx ./"
   },
   "dependencies": {
+    "@ant-design/cssinjs": "1.20.0",
     "@ant-design/icons": "^5.3.7",
     "@next/third-parties": "14.2.35",
     "antd": "^5.17.0",

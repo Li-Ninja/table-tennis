@@ -87,7 +87,7 @@ export default function Header(): JSX.Element {
                   alt="TTT51 Logo"
                   width={64}
                   height={64}
-                  className="w-[48px] md:w-full h-auto mr-2"
+                  className="mr-2 h-12 w-12 shrink-0 object-contain md:h-16 md:w-16"
                 />
                 <div className="md:hidden ml-3 text-lg font-medium">
                   Ttt51 - {menuItems.find(item => item.path === justifyActive)?.label || ''}

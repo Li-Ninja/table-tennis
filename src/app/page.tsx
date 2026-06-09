@@ -10,7 +10,7 @@ export default function Home() {
           width={1600}
           height={1600}
           quality={100}
-          className="w-64 col-12"
+          className="w-64 h-auto col-12"
           priority
           />
       </div>

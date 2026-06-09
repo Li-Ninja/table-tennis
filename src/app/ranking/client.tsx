@@ -4,7 +4,7 @@ import {
   ExclamationCircleOutlined, QuestionCircleOutlined,
 } from '@ant-design/icons';
 import {
-  Button, Tabs, Tooltip,
+  Tabs, Tooltip,
 } from 'antd';
 import type { TabsProps } from 'antd';
 import classNames from 'classnames';
@@ -28,6 +28,17 @@ const styles = {
   secondPlace: { backgroundColor: '#a8a8a8' },
   thirdPlace: { backgroundColor: '#ad6f69' },
 };
+
+function isPodiumRank(rank?: number) {
+  return rank === 1 || rank === 2 || rank === 3;
+}
+
+function rankingActionClassName(rank?: number) {
+  return classNames(
+    'inline-flex min-h-8 items-center rounded border border-transparent bg-transparent px-2 py-1 font-semibold leading-none transition-colors duration-150 hover:border-primary hover:bg-primary hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+    isPodiumRank(rank) ? 'text-gray-900' : 'text-gray-50',
+  );
+}
 
 export default function Ranking() {
   const [activeKey, setActiveKey] = useState('single');
@@ -169,13 +180,13 @@ export default function Ranking() {
                     : item.rank === 2 ? styles.secondPlace
                       : item.rank === 3 ? styles.thirdPlace : {}
                   }>
-                  <Button
-                    type="primary"
-                    autoInsertSpace={false}
+                  <button
+                    type="button"
+                    className={rankingActionClassName(item.rank)}
                     onClick={() => router.push(`/rankingHistory?subEventType=${type === 'single' ? 1 : 2}${type === 'single' ? `&id=${(item as Player).id}` : `&id1=${(item as DoublePlayer).player_id_1}&id2=${(item as DoublePlayer).player_id_2}`}`)}
                   >
                     {item.rank ?? '-'}
-                  </Button>
+                  </button>
                 </td>
                 <td
                   className="whitespace-nowrap px-2 py-4 sticky top-0 left-70px z-10 bg-neutral-700 border-b border-neutral-500"
@@ -186,10 +197,9 @@ export default function Ranking() {
                   }
                 >
                   {type === 'single'
-                    ? (<Button
-                        type="primary"
-                        autoInsertSpace={false}
-                        className="w-auto"
+                    ? (<button
+                        type="button"
+                        className={classNames(rankingActionClassName(item.rank), 'w-auto')}
                         onClick={() => router.push(`/player?id=${item.id}`)}
                     >
                       {item.rank === 1 ? '🏆 '
@@ -199,7 +209,7 @@ export default function Ranking() {
                               : item.rank === 5 ? '🎖 ' : ''
                       }
                       {(item as Player).name}
-                    </Button>)
+                    </button>)
                     : (
                       <div>
                         <div className={classNames('text-sm font-bold mb-1', item.rank === 1 || item.rank === 2 || item.rank === 3 ? 'text-gray-900' : 'text-gray-50')}>
