@@ -6,6 +6,9 @@ const nextConfig = {
     isProduction: process.env.NODE_ENV === 'production' ? 'true' : 'false',
     version,
   },
+  images: {
+    unoptimized: true,
+  },
 };
 
 module.exports = nextConfig;
