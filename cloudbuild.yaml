@@ -4,7 +4,7 @@ steps:
     args:
       - '-c'
       - |
-        yarn install && yarn build
+        corepack enable && pnpm install --frozen-lockfile && pnpm build
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/$REPO_NAME:$SHORT_SHA', '.']
