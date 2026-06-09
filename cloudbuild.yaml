@@ -1,5 +1,5 @@
 steps:
-  - name: 'node:20.9.0-slim'
+  - name: 'node:22.17.1-slim'
     entrypoint: 'sh'
     args:
       - '-c'
